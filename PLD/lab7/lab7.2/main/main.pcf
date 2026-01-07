@@ -1,0 +1,25 @@
+//! **************************************************************************
+// Written by: Map P.20131013 on Wed Jan 07 15:47:19 2026
+//! **************************************************************************
+
+SCHEMATIC START;
+COMP "btn1" LOCATE = SITE "A8" LEVEL 1;
+COMP "btn2" LOCATE = SITE "C4" LEVEL 1;
+COMP "btn3" LOCATE = SITE "B8" LEVEL 1;
+COMP "btn4" LOCATE = SITE "D9" LEVEL 1;
+COMP "led<0>" LOCATE = SITE "U16" LEVEL 1;
+COMP "led<1>" LOCATE = SITE "V16" LEVEL 1;
+COMP "led<2>" LOCATE = SITE "U15" LEVEL 1;
+COMP "led<3>" LOCATE = SITE "V15" LEVEL 1;
+COMP "led<4>" LOCATE = SITE "M11" LEVEL 1;
+COMP "led<5>" LOCATE = SITE "N11" LEVEL 1;
+COMP "sw<0>" LOCATE = SITE "T10" LEVEL 1;
+COMP "sw<1>" LOCATE = SITE "T9" LEVEL 1;
+COMP "sw<2>" LOCATE = SITE "V9" LEVEL 1;
+COMP "sw<3>" LOCATE = SITE "M8" LEVEL 1;
+COMP "sw<4>" LOCATE = SITE "N8" LEVEL 1;
+COMP "sw<5>" LOCATE = SITE "U8" LEVEL 1;
+COMP "sw<6>" LOCATE = SITE "V8" LEVEL 1;
+COMP "sw<7>" LOCATE = SITE "T5" LEVEL 1;
+SCHEMATIC END;
+

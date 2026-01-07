@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -lib "secureip" -o "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.2/main/main_isim_beh.exe" -prj "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.2/main/main_beh.prj" "work.main" 

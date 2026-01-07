@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.1/main.ncd
+OUTFILE=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.1/main.bit
+FAMILY=Spartan3E
+PART=xc3s250e-5cp132
+WORKINGDIR=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.1
+LICENSE=WebPack
+USER_INFO=__0_0_0

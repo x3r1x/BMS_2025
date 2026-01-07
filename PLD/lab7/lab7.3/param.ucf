@@ -1,0 +1,7 @@
+
+NET "x" LOC="T10";
+NET "y" LOC="T9";
+NET "z" LOC="V9";
+NET "w" LOC="M8";
+
+NET "f" LOC="U16";

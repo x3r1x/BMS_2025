@@ -1,0 +1,26 @@
+Running: /opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/fuse -intstyle ise -incremental -lib secureip -o /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.2/main/main_isim_beh.exe -prj /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.2/main/main_beh.prj work.main 
+ISim P.20131013 (signature 0xfbc00daa)
+Number of CPUs detected in this system: 16
+Turning on mult-threading, number of parallel sub-compilation jobs: 32 
+Determining compilation order of HDL files
+Parsing VHDL file "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.2/main/main.vhf" into library work
+Starting static elaboration
+Completed static elaboration
+Fuse Memory Usage: 100972 KB
+Fuse CPU Usage: 940 ms
+Compiling package standard
+Compiling package std_logic_1164
+Compiling package numeric_std
+Compiling package vcomponents
+Compiling architecture and2_v of entity AND2 [and2_default]
+Compiling architecture nand2_v of entity NAND2 [nand2_default]
+Compiling architecture or2_v of entity OR2 [or2_default]
+Compiling architecture nor2_v of entity NOR2 [nor2_default]
+Compiling architecture xor2_v of entity XOR2 [xor2_default]
+Compiling architecture xnor2_v of entity XNOR2 [xnor2_default]
+Compiling architecture behavioral of entity main
+Time Resolution for simulation is 1ps.
+Waiting for 1 sub-compilation(s) to finish...
+FATAL_ERROR:Simulator:Fuse.cpp:209:1.133 - Failed to compile one of the generated C files.
+
+   Please recompile with -mt off -v 1 switch to identify which design unit failed.  For technical support on this issue, please visit http://www.xilinx.com/support.
