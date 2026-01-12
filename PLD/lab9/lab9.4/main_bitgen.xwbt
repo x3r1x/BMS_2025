@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=C:\BMS\Two_stage_reg\main.ncd
+OUTFILE=C:\BMS\Two_stage_reg\main.bit
+FAMILY=Spartan6
+PART=xc6slx16-2csg324
+WORKINGDIR=C:\BMS\Two_stage_reg
+LICENSE=WebPack
+USER_INFO=__0_0_0

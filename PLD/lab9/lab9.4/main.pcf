@@ -1,0 +1,24 @@
+//! **************************************************************************
+// Written by: Map P.20131013 on Thu Jan 08 01:49:53 2026
+//! **************************************************************************
+
+SCHEMATIC START;
+COMP "STCP" LOCATE = SITE "D9" LEVEL 1;
+PIN STCP_pin<0> = BEL "STCP" PINNAME PAD;
+PIN "STCP_pin<0>" CLOCK_DEDICATED_ROUTE = FALSE;
+COMP "DS" LOCATE = SITE "U8" LEVEL 1;
+COMP "OE" LOCATE = SITE "V8" LEVEL 1;
+COMP "MR" LOCATE = SITE "T5" LEVEL 1;
+COMP "Q<0>" LOCATE = SITE "T11" LEVEL 1;
+COMP "Q<1>" LOCATE = SITE "R11" LEVEL 1;
+COMP "Q<2>" LOCATE = SITE "N11" LEVEL 1;
+COMP "Q<3>" LOCATE = SITE "M11" LEVEL 1;
+COMP "Q<4>" LOCATE = SITE "V15" LEVEL 1;
+COMP "Q<5>" LOCATE = SITE "U15" LEVEL 1;
+COMP "Q<6>" LOCATE = SITE "V16" LEVEL 1;
+COMP "Q<7>" LOCATE = SITE "U16" LEVEL 1;
+COMP "SHCP" LOCATE = SITE "C4" LEVEL 1;
+PIN SHCP_pin<0> = BEL "SHCP" PINNAME PAD;
+PIN "SHCP_pin<0>" CLOCK_DEDICATED_ROUTE = FALSE;
+SCHEMATIC END;
+

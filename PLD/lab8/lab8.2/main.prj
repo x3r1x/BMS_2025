@@ -1,0 +1,3 @@
+vhdl work "hex2seg.vhd"
+vhdl work "d2_4_vhd.vhd"
+vhdl work "main.vhf"

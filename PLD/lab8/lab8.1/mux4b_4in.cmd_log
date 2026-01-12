@@ -1,0 +1,15 @@
+vhdtdtfi -lib work mux4b_4in.vhd -prj lab8.1 -o mux4b_4in.spl -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 mux4b_4in.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.sym 
+vhdtdtfi -lib work mux4b_4in.vhd -prj lab8.1 -o mux4b_4in.spl -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 mux4b_4in.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.sym 
+vhdtdtfi -lib work mux4b_4in.vhd -prj lab8.1 -o mux4b_4in.spl -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 mux4b_4in.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.sym 
+vhdtdtfi -lib work mux4b_4in.vhd -prj lab8.1 -o mux4b_4in.spl -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 mux4b_4in.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.sym 
+vhdtdtfi -lib work mux4b_4in.vhd -prj lab8.1 -o mux4b_4in.spl -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 mux4b_4in.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.sym 
+vhdtdtfi -lib work mux4b_4in.vhd -prj lab8.1 -o mux4b_4in.spl -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 mux4b_4in.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.sym 
+vhdtdtfi -prj lab8.1 -o /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.vhi -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/vhdlinst.tft -deleteonerror -lib work mux4b_4in.vhd 
+vhdtdtfi -lib work mux4b_4in.vhd -prj lab8.1 -o mux4b_4in.spl -module mux4b_4in -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 mux4b_4in.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/mux4b_4in.sym 

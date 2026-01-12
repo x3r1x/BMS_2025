@@ -1,0 +1,1 @@
+sch2sym -intstyle ise -family spartan6 -refsym demux_4b_1in /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/demux_4b_1in.sch /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.1/demux_4b_1in.sym 

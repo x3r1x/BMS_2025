@@ -84,6 +84,7 @@
   <transforms xmlns="http://www.xilinx.com/XMLSchema">
     <transform xil_pn:end_ts="1767788530" xil_pn:name="TRAN_copyInitialToAbstractSimulation" xil_pn:start_ts="1767788530">
       <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
     </transform>
     <transform xil_pn:end_ts="1767789895" xil_pn:in_ck="2401160468984633076" xil_pn:name="TRAN_copyAbstractToPostAbstractSimulation" xil_pn:start_ts="1767789895">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -122,13 +123,14 @@
     </transform>
     <transform xil_pn:end_ts="1767789897" xil_pn:in_ck="1680341135639284715" xil_pn:name="TRAN_ISimulateBehavioralModelRunFuse" xil_pn:prop_ck="-124694902254665786" xil_pn:start_ts="1767789895">
       <status xil_pn:value="FailedRun"/>
-      <status xil_pn:value="NotReadyToRun"/>
+      <status xil_pn:value="ReadyToRun"/>
       <status xil_pn:value="OutOfDateForInputs"/>
       <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="InputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1767790030" xil_pn:name="TRAN_copyInitialToXSTAbstractSynthesis" xil_pn:start_ts="1767790030">
       <status xil_pn:value="SuccessfullyRun"/>
+      <status xil_pn:value="ReadyToRun"/>
     </transform>
     <transform xil_pn:end_ts="1767790030" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="6258231338147490847" xil_pn:start_ts="1767790030">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -221,6 +223,7 @@
     <transform xil_pn:end_ts="1767790111" xil_pn:in_ck="4774924121320" xil_pn:name="TRANEXT_bitFile_spartan6" xil_pn:prop_ck="396117104113915555" xil_pn:start_ts="1767790107">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForProperties"/>
       <outfile xil_pn:name="_xmsgs/bitgen.xmsgs"/>
       <outfile xil_pn:name="main.bgn"/>
       <outfile xil_pn:name="main.bit"/>

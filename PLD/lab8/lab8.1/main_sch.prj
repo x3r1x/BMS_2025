@@ -1,0 +1,3 @@
+vhdl work "d2_4_vhd.vhd"
+vhdl work "demux_4b_1in.vhf"
+vhdl work "main_sch.vhf"

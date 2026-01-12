@@ -1,0 +1,10 @@
+[Inputs]
+enable
+=sw[3:0]=
+=mode[1:0]=
+[Outputs]
+=Q0[3:0]=
+=Q1[3:0]=
+=Q2[3:0]=
+=Q3[3:0]=
+[BiDir]

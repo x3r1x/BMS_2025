@@ -1,0 +1,7 @@
+MODULE main
+	SUBMODULE d_trigger
+		INSTANCE XLXI_9
+	SUBMODULE t_trig
+		INSTANCE XLXI_10
+	SUBMODULE default_jk_trigger
+		INSTANCE XLXI_11

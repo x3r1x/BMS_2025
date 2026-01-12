@@ -1,0 +1,3 @@
+vhdl work "rs_nor.vhf"
+vhdl work "rs_nand.vhf"
+vhdl work "main.vhf"

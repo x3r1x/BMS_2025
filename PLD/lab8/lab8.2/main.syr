@@ -1,0 +1,351 @@
+Release 14.7 - xst P.20131013 (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> 
+Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.02 secs
+ 
+--> 
+Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 0.00 secs
+Total CPU time to Xst completion: 0.02 secs
+ 
+--> 
+Reading design: main.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "main.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "main"
+Output Format                      : NGC
+Target Device                      : xc6slx16-2-csg324
+
+---- Source Options
+Top Module Name                    : main
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Parsing VHDL file "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/hex2seg.vhd" into library work
+Parsing entity <hex2seg>.
+Parsing architecture <Behavioral> of entity <hex2seg>.
+Parsing VHDL file "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/d2_4_vhd.vhd" into library work
+Parsing entity <d2_4_vhd>.
+Parsing architecture <Behavioral> of entity <d2_4_vhd>.
+Parsing VHDL file "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/main.vhf" into library work
+Parsing entity <INV4_HXILINX_main>.
+Parsing architecture <INV4_HXILINX_main_V> of entity <inv4_hxilinx_main>.
+Parsing entity <main>.
+Parsing architecture <BEHAVIORAL> of entity <main>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating entity <main> (architecture <BEHAVIORAL>) from library <work>.
+
+Elaborating entity <hex2seg> (architecture <Behavioral>) from library <work>.
+INFO:HDLCompiler:679 - "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/hex2seg.vhd" Line 58. Case statement is complete. others clause is never selected
+
+Elaborating entity <d2_4_vhd> (architecture <Behavioral>) from library <work>.
+
+Elaborating entity <INV4_HXILINX_main> (architecture <INV4_HXILINX_main_V>) from library <work>.
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <main>.
+    Related source file is "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/main.vhf".
+    Set property "HU_SET = XLXI_4_0" for instance <XLXI_4>.
+    Summary:
+	no macro.
+Unit <main> synthesized.
+
+Synthesizing Unit <hex2seg>.
+    Related source file is "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/hex2seg.vhd".
+    Found 16x7-bit Read Only RAM for signal <S>
+    Summary:
+	inferred   1 RAM(s).
+Unit <hex2seg> synthesized.
+
+Synthesizing Unit <d2_4_vhd>.
+    Related source file is "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/d2_4_vhd.vhd".
+    Summary:
+	no macro.
+Unit <d2_4_vhd> synthesized.
+
+Synthesizing Unit <INV4_HXILINX_main>.
+    Related source file is "/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.2/main.vhf".
+    Summary:
+	no macro.
+Unit <INV4_HXILINX_main> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 1
+ 16x7-bit single-port Read Only RAM                    : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+Synthesizing (advanced) Unit <hex2seg>.
+INFO:Xst:3218 - HDL ADVISOR - The RAM <Mram_S> will be implemented on LUTs either because you have described an asynchronous read or because of currently unsupported block RAM features. If you have described an asynchronous read, making it synchronous would allow you to take advantage of available block RAM resources, for optimized device usage and improved timings. Please refer to your documentation for coding guidelines.
+    -----------------------------------------------------------------------
+    | ram_type           | Distributed                         |          |
+    -----------------------------------------------------------------------
+    | Port A                                                              |
+    |     aspect ratio   | 16-word x 7-bit                     |          |
+    |     weA            | connected to signal <GND>           | high     |
+    |     addrA          | connected to signal <D>             |          |
+    |     diA            | connected to signal <GND>           |          |
+    |     doA            | connected to signal <S>             |          |
+    -----------------------------------------------------------------------
+Unit <hex2seg> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# RAMs                                                 : 1
+ 16x7-bit single-port distributed Read Only RAM        : 1
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <main> ...
+
+Optimizing unit <INV4_HXILINX_main> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block main, actual ratio is 0.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Found no macro
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : main.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 15
+#      INV                         : 4
+#      LUT2                        : 4
+#      LUT4                        : 7
+# IO Buffers                       : 17
+#      IBUF                        : 6
+#      OBUF                        : 11
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx16csg324-2 
+
+
+Slice Logic Utilization: 
+ Number of Slice LUTs:                   15  out of   9112     0%  
+    Number used as Logic:                15  out of   9112     0%  
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:     15
+   Number with an unused Flip Flop:      15  out of     15   100%  
+   Number with an unused LUT:             0  out of     15     0%  
+   Number of fully used LUT-FF pairs:     0  out of     15     0%  
+   Number of unique control sets:         0
+
+IO Utilization: 
+ Number of IOs:                          17
+ Number of bonded IOBs:                  17  out of    232     7%  
+
+Specific Feature Utilization:
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+No clock signals found in this design
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -2
+
+   Minimum period: No path found
+   Minimum input arrival time before clock: No path found
+   Maximum output required time after clock: No path found
+   Maximum combinational path delay: 7.019ns
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default path analysis
+  Total number of paths / destination ports: 36 / 11
+-------------------------------------------------------------------------
+Delay:               7.019ns (Levels of Logic = 5)
+  Source:            A<0> (PAD)
+  Destination:       AN<3> (PAD)
+
+  Data Path: A<0> to AN<3>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             4   1.328   0.912  A_0_IBUF (A_0_IBUF)
+     LUT2:I0->O            1   0.250   0.681  XLXI_2/Y01 (XLXN_13)
+     begin scope: 'XLXI_4:I3'
+     INV:I->O              1   0.255   0.681  O31_INV_0 (O3)
+     end scope: 'XLXI_4:O3'
+     OBUF:I->O                 2.912          AN_0_OBUF (AN<0>)
+    ----------------------------------------
+    Total                      7.019ns (4.745ns logic, 2.274ns route)
+                                       (67.6% logic, 32.4% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 2.00 secs
+Total CPU time to Xst completion: 1.85 secs
+ 
+--> 
+
+
+Total memory usage is 383980 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    0 (   0 filtered)
+Number of infos    :    1 (   0 filtered)
+

@@ -1,0 +1,1 @@
+sch2sym -intstyle ise -family spartan6 -refsym rs_nor /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.2/rs_nor.sch /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.2/rs_nor.sym 

@@ -1,0 +1,2 @@
+vhdtdtfi -lib work divider.vhd -prj lab8.3 -o divider.spl -module divider -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 divider.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.3/divider.sym 

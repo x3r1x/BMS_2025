@@ -1,0 +1,27 @@
+
+NET "AN<3>" LOC="P17";
+NET "AN<2>" LOC="P18";
+NET "AN<1>" LOC="N15";
+NET "AN<0>" LOC="N16";
+
+NET "CLK" LOC="V10";
+NET "CLK" CLOCK_DEDICATED_ROUTE = FALSE;
+
+NET "S<6>" LOC="T17";
+NET "S<5>" LOC="T18";
+NET "S<4>" LOC="U17";
+NET "S<3>" LOC="U18";
+NET "S<2>" LOC="M14";
+NET "S<1>" LOC="N14";
+NET "S<0>" LOC="L14";
+
+NET "Mode<1>" LOC="V8";
+NET "Mode<0>" LOC="U8";
+
+NET "sw<3>" LOC="M8";
+NET "sw<2>" LOC="V9";
+NET "sw<1>" LOC="T9";
+NET "sw<0>" LOC="T10";
+
+NET "enable" LOC="T5";
+NET "enable" CLOCK_DEDICATED_ROUTE = FALSE;

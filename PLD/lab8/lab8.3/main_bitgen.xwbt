@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.3/main.ncd
+OUTFILE=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.3/main.bit
+FAMILY=Spartan6
+PART=xc6slx16-2csg324
+WORKINGDIR=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.3
+LICENSE=WebPack
+USER_INFO=__0_0_0

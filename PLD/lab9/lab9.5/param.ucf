@@ -1,0 +1,27 @@
+
+NET "DS" LOC="T5";
+NET "MR" LOC="V8";
+NET "SHCP" LOC="C4";
+NET "STCP" LOC="D9";
+NET "OE" LOC="U8";
+
+NET "Q<7>" LOC = "M13";
+NET "Q<6>" LOC = "L14";
+NET "Q<5>" LOC = "N14";
+NET "Q<4>" LOC = "M14";
+NET "Q<3>" LOC = "U18";
+NET "Q<2>" LOC = "U17";
+NET "Q<1>" LOC = "T18";
+NET "Q<0>" LOC = "T17";
+
+NET "NQ<7>" LOC = "T11";
+NET "NQ<6>" LOC = "R11";
+NET "NQ<5>" LOC = "N11";
+NET "NQ<4>" LOC = "M11";
+NET "NQ<3>" LOC = "V15";
+NET "NQ<2>" LOC = "U15";
+NET "NQ<1>" LOC = "V16";
+NET "NQ<0>" LOC = "U16";
+
+NET "SHCP" CLOCK_DEDICATED_ROUTE = FALSE;
+NET "STCP" CLOCK_DEDICATED_ROUTE = FALSE;

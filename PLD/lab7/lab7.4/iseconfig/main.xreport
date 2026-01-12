@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <report-views version="2.0" >
  <header>
-  <DateModified>2026-01-07T16:24:12</DateModified>
+  <DateModified>2026-01-07T16:59:28</DateModified>
   <ModuleName>main</ModuleName>
   <SummaryTimeStamp>2026-01-07T16:21:14</SummaryTimeStamp>
   <SavedFilePath>/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.4/iseconfig/main.xreport</SavedFilePath>
-  <ImplementationReportsDirectory>/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.4</ImplementationReportsDirectory>
+  <ImplementationReportsDirectory>/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab7/lab7.4/</ImplementationReportsDirectory>
   <DateInitialized>2026-01-07T16:12:11</DateInitialized>
   <EnableMessageFiltering>false</EnableMessageFiltering>
  </header>

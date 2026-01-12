@@ -1,0 +1,2 @@
+xst -intstyle ise -ifn "C:/BMS/Two_stage_reg/main_vhd.xst" -ofn "C:/BMS/Two_stage_reg/main_vhd.syr" 
+xst -intstyle ise -ifn "C:/BMS/Two_stage_reg/main_vhd.xst" -ofn "C:/BMS/Two_stage_reg/main_vhd.syr" 

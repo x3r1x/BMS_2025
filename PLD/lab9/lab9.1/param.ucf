@@ -1,0 +1,8 @@
+
+NET "sw<3>" LOC="T5";
+NET "sw<2>" LOC="V8";
+NET "sw<1>" LOC="T9";
+NET "sw<0>" LOC="T10";
+
+NET "q<1>" LOC="T11";
+NET "q<0>" LOC="U16";

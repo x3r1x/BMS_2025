@@ -1,0 +1,3 @@
+MODULE t_trigger
+	SUBMODULE d_trigger
+		INSTANCE XLXI_1

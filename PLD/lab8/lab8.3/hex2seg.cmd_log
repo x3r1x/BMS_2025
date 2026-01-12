@@ -1,0 +1,2 @@
+vhdtdtfi -lib work hex2seg.vhd -prj lab8.3 -o hex2seg.spl -module hex2seg -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 hex2seg.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.3/hex2seg.sym 

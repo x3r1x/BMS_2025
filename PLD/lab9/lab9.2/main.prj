@@ -1,0 +1,4 @@
+vhdl work "t_trigger.vhd"
+vhdl work "d_trigger.vhd"
+vhdl work "default_jk_trigger.vhd"
+vhdl work "main.vhf"

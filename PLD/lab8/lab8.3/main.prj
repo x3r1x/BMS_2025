@@ -1,0 +1,6 @@
+vhdl work "mux4b_4in.vhd"
+vhdl work "hex2seg.vhd"
+vhdl work "divider.vhd"
+vhdl work "demul.vhd"
+vhdl work "../lab8.2/d2_4_vhd.vhd"
+vhdl work "main.vhf"

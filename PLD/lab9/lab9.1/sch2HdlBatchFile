@@ -1,0 +1,3 @@
+sch2hdl,-intstyle,ise,-family,spartan6,-flat,-suppress,-vhdl,/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.1/main.vhf,-w,/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.1/main.sch
+sch2hdl,-intstyle,ise,-family,spartan6,-flat,-suppress,-vhdl,/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.1/rs_nor.vhf,-w,/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.1/rs_nor.sch
+sch2hdl,-intstyle,ise,-family,spartan6,-flat,-suppress,-vhdl,/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.1/rs_nand.vhf,-w,/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/lab9.1/rs_nand.sch

@@ -1,0 +1,16 @@
+
+NET "T" LOC="T5";
+NET "CE" LOC="V8";
+NET "DIR" LOC="U8";
+NET "R" LOC="N8";
+
+NET "Q<7>" LOC="T11";
+NET "Q<6>" LOC="R11";
+NET "Q<5>" LOC="N11";
+NET "Q<4>" LOC="M11";
+NET "Q<3>" LOC="V15";
+NET "Q<2>" LOC="U15";
+NET "Q<1>" LOC="V16";
+NET "Q<0>" LOC="U16";
+
+NET "T" CLOCK_DEDICATED_ROUTE = FALSE;

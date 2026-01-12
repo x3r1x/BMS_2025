@@ -1,0 +1,3 @@
+MODULE demux_4b_1in
+	SUBMODULE d2_4_vhd
+		INSTANCE XLXI_1

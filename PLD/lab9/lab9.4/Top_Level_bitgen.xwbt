@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/Two_stage_reg/Top_Level.ncd
+OUTFILE=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/Two_stage_reg/Top_Level.bit
+FAMILY=Spartan6
+PART=xc6slx16-2csg324
+WORKINGDIR=/home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab9/Two_stage_reg
+LICENSE=WebPack
+USER_INFO=__0_0_0

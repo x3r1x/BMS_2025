@@ -1,0 +1,2 @@
+vhdtdtfi -lib work demul.vhd -prj lab8.3 -o demul_w_enable.spl -module demul_w_enable -template /opt/Xilinx/14.7/ISE_DS/ISE//data/splfile.tft -deleteonerror 
+spl2sym -intstyle ise -family spartan6 demul_w_enable.spl /home/x3r1x/Documents/Study/BMS/Programmable/PLD/lab8/lab8.3/demul_w_enable.sym 

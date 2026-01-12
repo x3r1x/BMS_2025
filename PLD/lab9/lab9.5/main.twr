@@ -1,0 +1,115 @@
+--------------------------------------------------------------------------------
+Release 14.7 Trace  (lin64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+/opt/Xilinx/14.7/ISE_DS/ISE/bin/lin64/unwrapped/trce -intstyle ise -v 3 -s 2 -n
+3 -fastpaths -xml main.twx main.ncd -o main.twr main.pcf -ucf param.ucf
+
+Design file:              main.ncd
+Physical constraint file: main.pcf
+Device,package,speed:     xc6slx16,csg324,C,-2 (PRODUCTION 1.23 2013-10-13)
+Report level:             verbose report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Setup/Hold to clock SHCP
+------------+------------+------------+------------+------------+------------------+--------+
+            |Max Setup to|  Process   |Max Hold to |  Process   |                  | Clock  |
+Source      | clk (edge) |   Corner   | clk (edge) |   Corner   |Internal Clock(s) | Phase  |
+------------+------------+------------+------------+------------+------------------+--------+
+DS          |   -1.391(R)|      FAST  |    3.805(R)|      SLOW  |SHCP_BUFGP        |   0.000|
+MR          |   -1.508(R)|      FAST  |    3.882(R)|      SLOW  |SHCP_BUFGP        |   0.000|
+------------+------------+------------+------------+------------+------------------+--------+
+
+Clock STCP to Pad
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+            |Max (slowest) clk|  Process   |Min (fastest) clk|  Process   |                  | Clock  |
+Destination |  (edge) to PAD  |   Corner   |  (edge) to PAD  |   Corner   |Internal Clock(s) | Phase  |
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+NQ<0>       |        10.212(R)|      SLOW  |         4.386(R)|      FAST  |STCP_BUFGP        |   0.000|
+NQ<1>       |         9.636(R)|      SLOW  |         4.042(R)|      FAST  |STCP_BUFGP        |   0.000|
+NQ<2>       |         9.667(R)|      SLOW  |         4.092(R)|      FAST  |STCP_BUFGP        |   0.000|
+NQ<3>       |         9.734(R)|      SLOW  |         4.150(R)|      FAST  |STCP_BUFGP        |   0.000|
+NQ<4>       |         9.282(R)|      SLOW  |         3.806(R)|      FAST  |STCP_BUFGP        |   0.000|
+NQ<5>       |         9.227(R)|      SLOW  |         3.785(R)|      FAST  |STCP_BUFGP        |   0.000|
+NQ<6>       |         9.356(R)|      SLOW  |         3.888(R)|      FAST  |STCP_BUFGP        |   0.000|
+NQ<7>       |        10.040(R)|      SLOW  |         4.301(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<0>        |         7.762(R)|      SLOW  |         2.926(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<1>        |         7.762(R)|      SLOW  |         2.926(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<2>        |         7.767(R)|      SLOW  |         2.931(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<3>        |         7.767(R)|      SLOW  |         2.931(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<4>        |         7.770(R)|      SLOW  |         2.934(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<5>        |         7.770(R)|      SLOW  |         2.934(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<6>        |         7.772(R)|      SLOW  |         2.936(R)|      FAST  |STCP_BUFGP        |   0.000|
+Q<7>        |         7.772(R)|      SLOW  |         2.936(R)|      FAST  |STCP_BUFGP        |   0.000|
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+
+Clock to Setup on destination clock SHCP
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+SHCP           |    1.568|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock STCP
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+SHCP           |    7.918|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Pad to Pad
+---------------+---------------+---------+
+Source Pad     |Destination Pad|  Delay  |
+---------------+---------------+---------+
+OE             |NQ<0>          |    9.256|
+OE             |NQ<1>          |    9.256|
+OE             |NQ<2>          |    9.219|
+OE             |NQ<3>          |    9.219|
+OE             |NQ<4>          |    7.735|
+OE             |NQ<5>          |    7.735|
+OE             |NQ<6>          |    8.014|
+OE             |NQ<7>          |    8.014|
+OE             |Q<0>           |   10.390|
+OE             |Q<1>           |   10.390|
+OE             |Q<2>           |    9.953|
+OE             |Q<3>           |    9.953|
+OE             |Q<4>           |    9.754|
+OE             |Q<5>           |    9.754|
+OE             |Q<6>           |    9.558|
+OE             |Q<7>           |    9.558|
+---------------+---------------+---------+
+
+
+Analysis completed Mon Jan 12 01:46:03 2026 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 377 MB
+
+
+
