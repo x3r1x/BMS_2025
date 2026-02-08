@@ -15,6 +15,7 @@ int main(void)
 
     printf("Make up a number from 1 to 100.\n");
     printf("My guess: %d\n", (lowerEdge + upperEdge) / 2);
+
     while ((ch = getchar()) != 61 && ch != EOF && !isLiarDetected)
     {
         if (ch != 10) //10 = "\n"
@@ -67,7 +68,7 @@ int main(void)
     }
     else if (isLiarDetected)
     {
-        printf("WHY ARE YOU LYING TO ME?!?!?!?!?!?!?");
+        printf("WHY ARE YOU LYING TO ME?!?!?!?!?!?!?\n");
     }
     else
     {
