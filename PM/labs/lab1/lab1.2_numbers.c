@@ -6,11 +6,12 @@
 
 int main(void)
 {
-    int min, max, even, odd, num, check, cnt, sum;
+    int min = 0, max = 0, even = 0, odd = 0, cnt = 0, sum = 0;
+    int  num, elementsFound; //renmame
 
-    while ((check = scanf("%d", &num)) == 1 || getchar() != EOF)
+    while ((elementsFound = scanf("%d", &num)) == 1 || getchar() != EOF)
     {
-        if (check == 1)
+        if (elementsFound == 1)
         {
             if (cnt == 0)
             {

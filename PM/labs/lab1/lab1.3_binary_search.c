@@ -8,7 +8,7 @@ int main(void)
 {
     int lowerEdge = 0;
     int upperEdge = 101;
-    int ch; //60 = "<", 61 = "=", 62 = ">"
+    int ch;
 
     bool isErrorPrinted = false;
     bool isLiarDetected = false;
@@ -16,36 +16,34 @@ int main(void)
     printf("Make up a number from 1 to 100.\n");
     printf("My guess: %d\n", (lowerEdge + upperEdge) / 2);
 
-    while ((ch = getchar()) != 61 && ch != EOF && !isLiarDetected)
+    while ((ch = getchar()) != '=' && ch != EOF && !isLiarDetected)
     {
-        if (ch != 10) //10 = "\n"
+        if (ch != '\n')
         {
             if (!isErrorPrinted)
             {
-                if (ch == 60 || ch == 62)
+                if (ch == '<')
                 {
-                    if (ch == 60)
-                    {
-                        upperEdge = (lowerEdge + upperEdge) / 2;
+                    upperEdge = (lowerEdge + upperEdge) / 2;
 
-                        if (lowerEdge == (lowerEdge + upperEdge) / 2)
-                        {
-                            isLiarDetected = true;
-                        }
+                    if (lowerEdge == (lowerEdge + upperEdge) / 2)
+                    {
+                        isLiarDetected = true;
                     }
-
-                    if (ch == 62)
+                    else
                     {
-                        if (upperEdge - 1 == (lowerEdge + upperEdge) / 2)
-                        {
-                            isLiarDetected = true;
-                        }
-
+                        printf("My guess: %d\n", (lowerEdge + upperEdge) / 2);
+                    }
+                }
+                else if (ch == '>')
+                {
+                    if (upperEdge - 1 == (lowerEdge + upperEdge) / 2)
+                    {
+                        isLiarDetected = true;
+                    }
+                    else
+                    {
                         lowerEdge = (lowerEdge + upperEdge) / 2;
-                    }
-
-                    if (!isLiarDetected)
-                    {
                         printf("My guess: %d\n", (lowerEdge + upperEdge) / 2);
                     }
                 }

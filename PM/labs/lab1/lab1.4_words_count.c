@@ -4,24 +4,20 @@
 
 #include <stdio.h>
 
-//код 0 - 48, код 9 - 57
-//код a - 97, код z - 122
-//код A - 65, код Z - 90
-
 int main(void)
 {
-    int c;
-    int count = 0;
+    int ch;
+    int wordCounter = 0;
     bool isInsideAWord = false;
 
-    while ((c = getchar()) != EOF)
+    while ((ch = getchar()) != EOF)
     {
-        if ((48 <= c && c <= 57) || (65 <= c && c <= 90) || (97 <= c && c <= 122))
+        if (('0' <= ch && ch <= '9') || ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z'))
         {
             if (!isInsideAWord)
             {
                 isInsideAWord = true;
-                ++count;
+                ++wordCounter;
             }
         }
         else
@@ -30,5 +26,5 @@ int main(void)
         }
     }
 
-    printf("%d\n", count);
+    printf("%d\n", wordCounter);
 }
