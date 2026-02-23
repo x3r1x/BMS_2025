@@ -7,6 +7,26 @@
 constexpr int ROWS_COUNT = 10;
 constexpr int COLUMNS_COUNT = 10;
 
+void readField(int field[ROWS_COUNT][COLUMNS_COUNT]);
+void fillFieldWithDots(int field[ROWS_COUNT][COLUMNS_COUNT]);
+void outweightNewField(const int inField[ROWS_COUNT][COLUMNS_COUNT], int outField[ROWS_COUNT][COLUMNS_COUNT]);
+void printField(int field[ROWS_COUNT][COLUMNS_COUNT]);
+
+int main(void)
+{
+    int inField[ROWS_COUNT][COLUMNS_COUNT];
+    int outweightField[ROWS_COUNT][COLUMNS_COUNT];
+
+    readField(inField);
+
+    fillFieldWithDots(outweightField);
+    outweightNewField(inField, outweightField);
+
+    printf("Output:\n");
+
+    printField(outweightField);
+}
+
 void readField(int field[ROWS_COUNT][COLUMNS_COUNT])
 {
     for (int i = 0; i < ROWS_COUNT; ++i)
@@ -31,7 +51,7 @@ void fillFieldWithDots(int field[ROWS_COUNT][COLUMNS_COUNT])
     }
 }
 
-void normalizeNewField(const int inField[ROWS_COUNT][COLUMNS_COUNT], int outField[ROWS_COUNT][COLUMNS_COUNT])
+void outweightNewField(const int inField[ROWS_COUNT][COLUMNS_COUNT], int outField[ROWS_COUNT][COLUMNS_COUNT])
 {
     for (int i = 0; i < ROWS_COUNT; ++i)
     {
@@ -61,19 +81,4 @@ void printField(int field[ROWS_COUNT][COLUMNS_COUNT])
 
         putchar('\n');
     }
-}
-
-int main(void)
-{
-    int inField[ROWS_COUNT][COLUMNS_COUNT];
-    int normalizedField[ROWS_COUNT][COLUMNS_COUNT];
-
-    readField(inField);
-
-    fillFieldWithDots(normalizedField);
-    normalizeNewField(inField, normalizedField);
-
-    printf("Output:\n");
-
-    printField(normalizedField);
 }

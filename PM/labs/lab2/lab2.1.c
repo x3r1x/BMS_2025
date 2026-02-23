@@ -4,50 +4,14 @@
 
 #include <stdio.h>
 
-int readNextOperand()
-{
-    int operand;
-    while (scanf("%d", &operand) != 1)
-    {
-        const int symbol = getchar();
+//negative numbers
+//strings
+//write function for switch case
 
-        if (symbol == EOF || symbol == 'q')
-        {
-            return -1;
-        }
+//write documentation
+int readNextOperand();
+int readNextOperation();
 
-        if (symbol == '\n')
-        {
-            return -2;
-        }
-    }
-
-    return operand;
-}
-
-int readNextOperation()
-{
-    int operation = getchar();
-
-    while (operation == ' ')
-    {
-        operation = getchar();
-    }
-
-    if (operation == EOF || operation == 'q')
-    {
-        return -1;
-    }
-
-    if (operation == '\n')
-    {
-        return -2;
-    }
-
-    return operation;
-}
-
-//mini-calculator
 int main(void)
 {
     printf("Enter expressions line by line (or q to quit): \n");
@@ -119,4 +83,47 @@ int main(void)
             printf("Answer: %d\n", firstOperand);
         }
     }
+}
+
+int readNextOperand()
+{
+    int operand;
+    while (scanf("%d", &operand) != 1)
+    {
+        const int symbol = getchar();
+
+        if (symbol == EOF || symbol == 'q')
+        {
+            return -1;
+        }
+
+        if (symbol == '\n')
+        {
+            return -2;
+        }
+    }
+
+    return operand;
+}
+
+int readNextOperation()
+{
+    int operation = getchar();
+
+    while (operation == ' ')
+    {
+        operation = getchar();
+    }
+
+    if (operation == EOF || operation == 'q')
+    {
+        return -1;
+    }
+
+    if (operation == '\n')
+    {
+        return -2;
+    }
+
+    return operation;
 }

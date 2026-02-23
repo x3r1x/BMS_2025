@@ -6,6 +6,35 @@
 
 constexpr int ARRAY_SIZE = 100;
 
+int readArray(int len, int* numbersArray);
+void printReversedArray(int len, const int* numbersArray);
+
+int main(void)
+{
+    int numbersCount;
+    int numbers[ARRAY_SIZE];
+
+    if (scanf("%d", &numbersCount) != 1 )
+    {
+        printf("Wrong input found!\n");
+        return 1;
+    }
+
+    if (numbersCount > ARRAY_SIZE)
+    {
+        printf("Numbers limit exceeded\n");
+        return 1;
+    }
+
+    if (readArray(numbersCount, numbers) != 0)
+    {
+        printf("Wrong input found!\n");
+        return 1;
+    }
+
+    printReversedArray(numbersCount, numbers);
+}
+
 int readArray(const int len, int* numbersArray)
 {
     for (int i = 0; i < len; ++i)
@@ -23,33 +52,8 @@ void printReversedArray(const int len, const int* numbersArray)
 {
     for (int i = len - 1; i >= 0; --i)
     {
-        if (i != 0)
-        {
-            printf("%d ", numbersArray[i]);
-        }
-        else
-        {
-            printf("%d\n", numbersArray[0]);
-        }
-    }
-}
-
-int main(void)
-{
-    int numbersCount;
-    int numbers[ARRAY_SIZE];
-
-    if (scanf("%d", &numbersCount) != 1)
-    {
-        printf("Wrong input found!\n");
-        return 1;
+        printf("%d ", numbersArray[i]);
     }
 
-    if (readArray(numbersCount, numbers) != 0)
-    {
-        printf("Wrong input found!\n");
-        return 1;
-    }
-
-    printReversedArray(numbersCount, numbers);
+    printf("\n");
 }

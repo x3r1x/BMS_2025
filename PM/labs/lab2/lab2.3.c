@@ -6,6 +6,36 @@
 
 constexpr int ARRAY_SIZE = 10;
 
+int readArrayAndCountSum(int* sum, int len, int* numbersArray);
+void printElementsGreaterThenAvg(int sum, int len, const int* numbersArray);
+
+int main(void)
+{
+    int numbersCount;
+    int sum;
+    int numbers[ARRAY_SIZE];
+
+    if (scanf("%d", &numbersCount) != 1)
+    {
+        printf("Wrong input found!\n");
+        return 1;
+    }
+
+    if (numbersCount > ARRAY_SIZE)
+    {
+        printf("Numbers limit exceeded!\n");
+        return 1;
+    }
+
+    if (readArrayAndCountSum(&sum, numbersCount, numbers) != 0)
+    {
+        printf("Wrong input found!\n");
+        return 1;
+    }
+
+    printElementsGreaterThenAvg(sum, numbersCount, numbers);
+}
+
 int readArrayAndCountSum(int* sum, const int len, int* numbersArray)
 {
     for (int i = 0; i < len; ++i)
@@ -29,25 +59,4 @@ void printElementsGreaterThenAvg(const int sum, const int len, const int* number
             printf("%d ", numbersArray[i]);
         }
     }
-}
-
-int main(void)
-{
-    int numbersCount;
-    int sum;
-    int numbers[ARRAY_SIZE];
-
-    if (scanf("%d", &numbersCount) != 1)
-    {
-        printf("Wrong input found!\n");
-        return 1;
-    }
-
-    if (readArrayAndCountSum(&sum, numbersCount, numbers) != 0)
-    {
-        printf("Wrong input found!\n");
-        return 1;
-    }
-
-    printElementsGreaterThenAvg(sum, numbersCount, numbers);
 }
