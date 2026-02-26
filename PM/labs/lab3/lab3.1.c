@@ -4,61 +4,93 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-constexpr int STRING_SIZE = 100;
 constexpr int REGISTER_DIFFERENCE = 32;
 
-void deleteNewLineSymbol(char inString[STRING_SIZE]);
-void copyStringWithoutDividers(char inString[STRING_SIZE], char outString[STRING_SIZE]);
-bool isStringPalindrome(char inString[STRING_SIZE]);
+char* readString(bool* isEOF);
+char* getNewStringWithoutDividers(const char* inString);
+bool isStringPalindrome(const char* inString);
 
 int main(void)
 {
-    char inStr[STRING_SIZE];
-    char noDividerStr[STRING_SIZE];
-
-    while (fgets(inStr, sizeof(inStr), stdin) != NULL)
+    bool isEOF = false;
+    while (!isEOF)
     {
-        deleteNewLineSymbol(inStr);
-        copyStringWithoutDividers(inStr, noDividerStr);
+        const char* str = readString(&isEOF);
 
-        if (isStringPalindrome(noDividerStr))
+        if (str != nullptr)
         {
-            printf("%s\n", inStr);
+            str = getNewStringWithoutDividers(str);
+
+            if (isStringPalindrome(str))
+            {
+                printf("%s\n", str);
+            }
         }
+        else if (!isEOF) printf("Could not read a string: not enough memory!\n");
     }
 }
 
-void deleteNewLineSymbol(char inString[STRING_SIZE])
+char* readString(bool* isEOF)
 {
-    const size_t length = strlen(inString);
+    char* str = nullptr;
+    size_t len = 0;
+    int ch;
 
-    if (length > 0 && inString[length - 1] == '\n')
+    while ((ch = getchar()) != '\n' && ch != EOF)
     {
-        inString[length - 1] = '\0';
+        char *tmp_ptr = realloc(str, len + 1);
+
+        if (tmp_ptr == nullptr)
+        {
+            free(str);
+            return nullptr;
+        }
+
+        str = tmp_ptr;
+        str[len++] = (char)ch;
     }
+
+    if (ch == EOF)
+    {
+        *isEOF = true;
+        return nullptr;
+    }
+
+    str[len] = '\0';
+    return str;
 }
 
-void copyStringWithoutDividers(char inString[STRING_SIZE], char outString[STRING_SIZE])
+char* getNewStringWithoutDividers(const char* inString)
 {
-    int currentOutStringIndex = 0;
+    char* outString = nullptr;
+    size_t outStringLength = 0;
 
     for (int i = 0; i <= strlen(inString) - 1; ++i)
     {
         if (('a' <= inString[i] && inString[i] <= 'z') || ('A' <= inString[i] && inString[i] <= 'Z') ||
             ('0' <= inString[i] && inString[i] <= '9'))
         {
-            outString[currentOutStringIndex] = inString[i];
+            char* tmp_ptr = realloc(outString, outStringLength + 1);
 
-            ++currentOutStringIndex;
+            if (tmp_ptr == nullptr)
+            {
+                free(outString);
+                return nullptr;
+            }
+
+            outString = tmp_ptr;
+            outString[outStringLength++] = inString[i];
         }
     }
 
-    outString[currentOutStringIndex] = '\0';
+    outString[outStringLength] = '\0';
+    return outString;
 }
 
-bool isStringPalindrome(char inString[STRING_SIZE])
+bool isStringPalindrome(const char* inString)
 {
     for (int i = 0, j = strlen(inString) - 1; i < j; ++i, --j)
     {
