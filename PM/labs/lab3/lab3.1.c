@@ -20,6 +20,8 @@ int main(void)
     while (!isEOF)
     {
         char* str = readString(&isEOF);
+        if (isEOF) break;
+
         if (str == nullptr)
         {
             printf("Error: not enough memory!\n");

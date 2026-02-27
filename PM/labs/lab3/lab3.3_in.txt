@@ -1,2 +1,1 @@
-APPLE   orange  bananaaaa apple
-	banANAaaa apple ORANGE APPLE BANANAAAA
+APPLE   orange  bananaaaa apple         banANAaaa apple ORANGE APPLE BANANAAAA
