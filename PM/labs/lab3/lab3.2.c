@@ -101,21 +101,9 @@ void placeStringInSamplingArray(char* simplingArray[STRING_SAMPLING_ARRAY_SIZE],
 {
     int index = 0;
 
-    while (index < STRING_SAMPLING_ARRAY_SIZE && simplingArray[index] != nullptr)
+    while (index < STRING_SAMPLING_ARRAY_SIZE && simplingArray[index] != nullptr && strcmp(toLower(str), toLower(simplingArray[index])) < 0)
     {
-        if (strcmp(toLower(str), toLower(simplingArray[index])) < 0)
-        {
-            ++index;
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    if (simplingArray[index] == nullptr)
-    {
-        simplingArray[index] = str;
+        ++index;
     }
 
     if (index != STRING_SAMPLING_ARRAY_SIZE)

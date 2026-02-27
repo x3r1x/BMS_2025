@@ -9,9 +9,9 @@
 
 constexpr int REGISTER_DIFFERENCE = 32;
 
-char *readString(bool *isEOF);
-char *getNewStringWithoutDividers(const char *inString);
-bool isStringPalindrome(const char *inString);
+char* readString(bool* isEOF);
+char* getNewStringWithoutDividers(const char* inString);
+bool isStringPalindrome(const char* inString);
 
 int main(void)
 {
@@ -19,14 +19,14 @@ int main(void)
 
     while (!isEOF)
     {
-        char *str = readString(&isEOF);
+        char* str = readString(&isEOF);
         if (str == nullptr)
         {
             printf("Error: not enough memory!\n");
             return 1;
         }
 
-        const char *strWithoutDividers = getNewStringWithoutDividers(str);
+        const char* strWithoutDividers = getNewStringWithoutDividers(str);
         if (strWithoutDividers == nullptr)
         {
             printf("Error: not enough memory!\n");
@@ -40,15 +40,15 @@ int main(void)
     }
 }
 
-char *readString(bool *isEOF)
+char* readString(bool* isEOF)
 {
-    char *str = nullptr;
+    char* str = nullptr;
     size_t len = 0;
     int ch;
 
     while ((ch = getchar()) != '\n' && ch != EOF)
     {
-        char *tmp_ptr = realloc(str, len + 1);
+        char* tmp_ptr = realloc(str, len + 1);
 
         if (tmp_ptr == nullptr)
         {
@@ -70,9 +70,9 @@ char *readString(bool *isEOF)
     return str;
 }
 
-char *getNewStringWithoutDividers(const char *inString)
+char *getNewStringWithoutDividers(const char* inString)
 {
-    char *outString = nullptr;
+    char* outString = nullptr;
     size_t outStringLength = 0;
 
     for (int i = 0; i <= strlen(inString) - 1; ++i)
