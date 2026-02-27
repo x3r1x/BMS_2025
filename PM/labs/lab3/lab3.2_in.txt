@@ -1,0 +1,6 @@
+5
+apple
+PEAR
+BANANA
+orange
+plum

@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <string.h>
 
 int MyStrCmp(const char a[], const char b[])
 {
@@ -23,7 +24,8 @@ int MyStrCmp(const char a[], const char b[])
 
 int main()
 {
-    constexpr  char s1[] = "Hello";
-    constexpr char s2[] = "Hello1";
+    constexpr  char s1[] = "pear";
+    constexpr char s2[] = "apple";
     printf("%d\n", MyStrCmp(s1, s2));
+    printf("%d\n", strcmp(s1, s2));
 }
