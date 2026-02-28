@@ -11,6 +11,8 @@ constexpr int REGISTER_DIFFERENCE = 32;
 
 char* readString(bool* isEOF);
 char* getNewStringWithoutDividers(const char* inString);
+bool isAlphaNumeric(char symbol);
+int lowerSymbol(int symbol);
 bool isStringPalindrome(const char* inString);
 
 int main(void)
@@ -19,6 +21,7 @@ int main(void)
 
     while (!isEOF)
     {
+        //FIXME: free
         char* str = readString(&isEOF);
         if (isEOF) break;
 
@@ -28,10 +31,11 @@ int main(void)
             return 1;
         }
 
-        const char* strWithoutDividers = getNewStringWithoutDividers(str);
+        char* strWithoutDividers = getNewStringWithoutDividers(str);
         if (strWithoutDividers == nullptr)
         {
             printf("Error: not enough memory!\n");
+            free(str);
             return 1;
         }
 
@@ -39,6 +43,9 @@ int main(void)
         {
             printf("%s\n", str);
         }
+
+        free(str);
+        free(strWithoutDividers);
     }
 }
 
@@ -47,64 +54,103 @@ char* readString(bool* isEOF)
     char* str = nullptr;
     size_t len = 0;
     int ch;
+    *isEOF = false;
 
     while ((ch = getchar()) != '\n' && ch != EOF)
     {
-        char* tmp_ptr = realloc(str, len + 1);
+        char* newStrPtr = realloc(str, len + 1);
 
-        if (tmp_ptr == nullptr)
+        if (newStrPtr == nullptr)
         {
-            free(str);
-            return nullptr;
+            goto error;
         }
 
-        str = tmp_ptr;
+        str = newStrPtr;
         str[len++] = (char) ch;
     }
 
     if (ch == EOF)
     {
         *isEOF = true;
-        return nullptr;
+        goto error;
     }
 
+    char *newStrPtr = realloc(str, len + 1);
+
+    if (newStrPtr == nullptr)
+    {
+        goto error;
+    }
+
+
+    str = newStrPtr;
     str[len] = '\0';
     return str;
+
+    error:
+        free(str);
+        return nullptr;
 }
 
+bool isAlphaNumeric(const char symbol)
+{
+    return ('a' <= symbol && symbol <= 'z') || ('A' <= symbol && symbol <= 'Z') || ('0' <= symbol && symbol <= '9');
+}
+
+//FIXME: make malloc
 char *getNewStringWithoutDividers(const char* inString)
 {
     char* outString = nullptr;
     size_t outStringLength = 0;
+    const size_t inStringLen = strlen(inString);
 
-    for (int i = 0; i <= strlen(inString) - 1; ++i)
+    for (int i = 0; i <= inStringLen - 1; ++i)
     {
-        if (('a' <= inString[i] && inString[i] <= 'z') || ('A' <= inString[i] && inString[i] <= 'Z') ||
-            ('0' <= inString[i] && inString[i] <= '9'))
+        if (isAlphaNumeric(inString[i]))
         {
-            char *tmp_ptr = realloc(outString, outStringLength + 1);
+            char *newStrPtr = realloc(outString, outStringLength + 1);
 
-            if (tmp_ptr == nullptr)
+            if (newStrPtr == nullptr)
             {
                 free(outString);
                 return nullptr;
             }
 
-            outString = tmp_ptr;
+            outString = newStrPtr;
             outString[outStringLength++] = inString[i];
         }
     }
 
+    char *newStrPtr = realloc(outString, outStringLength + 1);
+
+    if (newStrPtr == nullptr)
+    {
+        free(outString);
+        return nullptr;
+    }
+
+    outString = newStrPtr;
     outString[outStringLength] = '\0';
     return outString;
 }
 
+int lowerSymbol(const int symbol)
+{
+    if ('A' <= symbol && symbol <= 'Z')
+    {
+        return symbol + REGISTER_DIFFERENCE;
+    }
+
+    return symbol;
+}
+
 bool isStringPalindrome(const char *inString)
 {
-    for (int i = 0, j = strlen(inString) - 1; i < j; ++i, --j)
+    const size_t inStringLen = strlen(inString);
+
+    for (int i = 0, j = inStringLen - 1; i < j; ++i, --j)
     {
-        if (inString[i] != inString[j] && inString[i] - inString[j] != REGISTER_DIFFERENCE && inString[j] - inString[i]
-            != REGISTER_DIFFERENCE)
+        if (lowerSymbol(inString[i]) != lowerSymbol(inString[j]))
         {
             return false;
         }
