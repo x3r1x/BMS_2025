@@ -130,7 +130,7 @@ int findPlacementIndex(char** array, const int len, const char* str)
 
 char** placeWordInArrayByIndex(char** array, const int len, const int index, char* str, bool* isError)
 {
-    char** newArray = realloc(array, len + 1);
+    char** newArray = realloc(array, (len + 1) *sizeof(char*));
 
     if (newArray == nullptr)
     {
@@ -150,7 +150,7 @@ char** placeWordInArrayByIndex(char** array, const int len, const int index, cha
 
 int* placeCountValueByIndex(int* array, const int len, const int index, bool *isError)
 {
-    int* newArray = realloc(array, len + 1);
+    int* newArray = realloc(array, (len + 1) * sizeof(int));
 
     if (newArray == nullptr)
     {
@@ -202,7 +202,7 @@ char* readWord(bool* isEnd, bool* isMemoryExceeded)
     return word;
 }
 
-void printCounts(char **stringArray, const int* countsArray, const int len)
+void printCounts(char** stringArray, const int* countsArray, const int len)
 {
     for (int i = 0; i < len; ++i)
     {
