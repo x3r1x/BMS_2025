@@ -9,8 +9,8 @@
 constexpr int TOP_STRINGS_ARRAY_SIZE = 3;
 constexpr int REGISTER_DIFFERENCE = 32;
 
-char* readString();
-char* toLower(const char* inString);
+char* reallocString();
+char* mallocConvertToLower(const char* inString);
 void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bool* isError);
 void printArray(char* array[TOP_STRINGS_ARRAY_SIZE]);
 
@@ -30,11 +30,10 @@ int main(void)
 
 	for (int i = 0; i < N; ++i)
 	{
-		char* str = readString();
+		char* str = reallocString();
 
 		if (str == nullptr)
 		{
-			free(str);
 			printf("Error: Not enough memory\n");
 			return 1;
 		}
@@ -42,17 +41,19 @@ int main(void)
 		placeStringInTopArray(topStrings, str, &isError);
 
 		if (isError)
+		{
+			free(str);
+			printf("Error: not enough memory!\n");
+			return 1;
+		}
 	}
 
 	printArray(topStrings);
 
 	return 0;
-
-	error:
-		free()
 }
 
-char* readString()
+char* reallocString()
 {
 	char* str = nullptr;
 	size_t len = 0;
@@ -64,8 +65,7 @@ char* readString()
 
 		if (newStrPtr == nullptr)
 		{
-			free(str);
-			return nullptr;
+			goto error;
 		}
 
 		str = newStrPtr;
@@ -76,60 +76,52 @@ char* readString()
 
 	if (newStrPtr == nullptr)
 	{
-		free(str);
-		return nullptr;
+		goto error;
 	}
 
 	str = newStrPtr;
-
 	str[len] = '\0';
 	return str;
+
+error:
+	free(str);
+	return nullptr;
 }
 
-char* toLower(const char* inString)
+int lowerSymbol(const int symbol)
 {
-	char* newStr = nullptr;
-	size_t newStrLen = 0;
-	size_t inStringLen = strlen(inString);
-
-	for (int i = 0; i < inStringLen; ++i)
+	if ('A' <= symbol && symbol <= 'Z')
 	{
-		char* newStrPtr = realloc(newStr, newStrLen + 1);
-
-		if (newStrPtr == nullptr)
-		{
-			free(newStr);
-			return nullptr;
-		}
-
-		newStr = newStrPtr;
-		int ch = inString[i];
-
-		if ('A' <= inString[i] && inString[i] <= 'Z')
-		{
-			ch += REGISTER_DIFFERENCE;
-		}
-
-		newStr[newStrLen++] = (char)ch;
+		return symbol + REGISTER_DIFFERENCE;
 	}
 
-	char* newStrPtr = realloc(newStr, newStrLen + 1);
+	return symbol;
+}
 
-	if (newStrPtr == nullptr)
+char* mallocConvertToLower(const char* inString)
+{
+	const size_t inStringLen = strlen(inString);
+	char* outString = malloc(inStringLen + 1);
+
+	if (outString == nullptr)
 	{
-		free(newStr);
 		return nullptr;
 	}
 
-	newStr = newStrPtr;
-	newStr[newStrLen] = '\0';
-	return newStr;
+	for (int i = 0; i < inStringLen; ++i)
+	{
+		outString[i] = lowerSymbol(inString[i]);
+	}
+
+	outString[inStringLen] = '\0';
+	return outString;
 }
 
 void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bool* isError)
 {
 	int index = 0;
-	char* loweredStr = toLower(str);
+	char* loweredStr = mallocConvertToLower(str);
+	char* lowerArrayString = nullptr;
 
 	if (loweredStr == nullptr)
 	{
@@ -138,21 +130,20 @@ void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bo
 	}
 
 	// free str
-	// rename
-	while (index < TOP_STRINGS_ARRAY_SIZE && topArray[index] != nullptr && strcmp(toLower(str), toLower(topArray[index])) < 0)
+	while (index < TOP_STRINGS_ARRAY_SIZE && topArray[index] != nullptr)
 	{
-		char* loweredComparingStr = toLower(topArray[index]);
+		lowerArrayString = mallocConvertToLower(topArray[index]);
 
-		if (loweredComparingStr == nullptr)
+		if (lowerArrayString == nullptr)
 		{
 			free(loweredStr);
 			*isError = true;
 			return;
 		}
 
-		if (strcmp(loweredStr, loweredComparingStr) < 0)
+		if (strcmp(loweredStr, lowerArrayString) < 0)
 		{
-			++index;
+			lowerArrayString = mallocConvertToLower(topArray[++index]);
 		}
 		else
 		{
@@ -169,6 +160,9 @@ void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bo
 
 		topArray[index] = str;
 	}
+
+	free(loweredStr);
+	free(lowerArrayString);
 }
 
 void printArray(char* array[TOP_STRINGS_ARRAY_SIZE])
