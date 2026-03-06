@@ -11,10 +11,9 @@ constexpr int NO_INDEX_FOUND = -1;
 constexpr int ERROR = -2;
 
 char* readWord(bool* isEnd, bool* isMemoryExceeded);
-int lowerSymbol(int symbol);
-char* mallocConvertToLower(const char* inString);
+char* toLower(const char* inString);
 int getArrayIndexOfAWord(char** array, int len, const char* str, bool* isError);
-int findPlacementIndex(char** array, int len, const char* str, bool* isError);
+int findPlacementIndex(char** array, int len, const char* str);
 char** placeWordInArrayByIndex(char** array, int len, int index, char* str, bool* isError);
 int* placeCountValueByIndex(int* array, int len, int index, bool* isError);
 void printCounts(char** stringArray, const int* countsArray, int len);
@@ -42,9 +41,7 @@ int main(void)
 
 			if (indexInArray == NO_INDEX_FOUND)
 			{
-				const int placementIndex = findPlacementIndex(words, totalWordsCount, word, &isMemoryExceeded);
-				if (isMemoryExceeded) goto error;
-
+				const int placementIndex = findPlacementIndex(words, totalWordsCount, word);
 				words = placeWordInArrayByIndex(words, totalWordsCount, placementIndex, word, &isMemoryExceeded);
 				if (isMemoryExceeded)
 					goto error;
@@ -74,40 +71,40 @@ error:
 	return 1;
 }
 
-int lowerSymbol(const int symbol)
+//FIXME: DELETE!!! and use standart
+char* toLower(const char* inString)
 {
-	if ('A' <= symbol && symbol <= 'Z')
+	char* newStr = nullptr;
+	size_t newStrLen = 0;
+
+	for (int i = 0; i < strlen(inString); ++i)
 	{
-		return symbol + REGISTER_DIFFERENCE;
+		char* tmp_ptr = realloc(newStr, newStrLen + 1);
+
+		if (tmp_ptr == nullptr)
+		{
+			free(newStr);
+			return nullptr;
+		}
+
+		newStr = tmp_ptr;
+		int ch = inString[i];
+
+		if ('A' <= inString[i] && inString[i] <= 'Z')
+		{
+			ch += REGISTER_DIFFERENCE;
+		}
+
+		newStr[newStrLen++] = (char)ch;
 	}
 
-	return symbol;
-}
-
-//FIXME: use malloc
-char* mallocConvertToLower(const char* inString)
-{
-	const size_t inStringLen = strlen(inString);
-	char* outString = malloc(inStringLen + 1);
-
-	if (outString == nullptr)
-	{
-		return nullptr;
-	}
-
-	for (int i = 0; i < inStringLen; ++i)
-	{
-		outString[i] = lowerSymbol(inString[i]);
-	}
-
-	outString[inStringLen] = '\0';
-	return outString;
+	newStr[newStrLen] = '\0';
+	return newStr;
 }
 
 int getArrayIndexOfAWord(char** array, const int len, const char* str, bool* isError)
 {
-	char* loweredStr = mallocConvertToLower(str);
-	char* loweredComparingStr = nullptr;
+	const char* loweredStr = toLower(str);
 
 	if (loweredStr == nullptr)
 	{
@@ -117,63 +114,24 @@ int getArrayIndexOfAWord(char** array, const int len, const char* str, bool* isE
 
 	for (int i = 0; i < len; ++i)
 	{
-		loweredComparingStr = mallocConvertToLower(array[i]);
-
-		if (loweredStr == nullptr)
+		if (strcmp(loweredStr, toLower(array[i])) == 0)
 		{
-			free(loweredStr);
-			*isError = true;
-			return ERROR;
-		}
-
-		if (strcmp(loweredStr, loweredComparingStr) == 0)
-		{
-			free(loweredStr);
-			free(loweredComparingStr);
 			return i;
 		}
 	}
 
-	free(loweredStr);
-	free(loweredComparingStr);
 	return NO_INDEX_FOUND;
 }
 
-int findPlacementIndex(char** array, const int len, const char* str, bool* isError)
+int findPlacementIndex(char** array, const int len, const char* str)
 {
 	int index = 0;
-	char* loweredStr = mallocConvertToLower(str);
-	char* loweredComparingStr = nullptr;
 
-	if (loweredStr == nullptr)
+	while (index < len && strcmp(toLower(str), toLower(array[index])) > 0)
 	{
-		*isError = true;
-		return ERROR;
+		++index;
 	}
 
-	while (index < len)
-	{
-		loweredComparingStr = mallocConvertToLower(array[index]);
-
-		if (loweredComparingStr == nullptr)
-		{
-			free(loweredStr);
-			*isError = false;
-			return ERROR;
-		}
-
-		if (strcmp(loweredStr, loweredComparingStr) > 0)
-		{
-			++index;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-	free(loweredStr);
-	free(loweredComparingStr);
 	return index;
 }
 
@@ -193,15 +151,7 @@ char** placeWordInArrayByIndex(char** array, const int len, const int index, cha
 		newArray[i] = newArray[i - 1];
 	}
 
-	newArray[index] = mallocConvertToLower(str);
-
-	if (newArray[index] == nullptr)
-	{
-		free(newArray);
-		*isError = true;
-		return nullptr;
-	}
-
+	newArray[index] = toLower(str);
 	return newArray;
 }
 

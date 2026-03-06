@@ -10,6 +10,7 @@ constexpr int TOP_STRINGS_ARRAY_SIZE = 3;
 constexpr int REGISTER_DIFFERENCE = 32;
 
 char* reallocString();
+int lowerSymbol(int symbol);
 char* mallocConvertToLower(const char* inString);
 void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bool* isError);
 void printArray(char* array[TOP_STRINGS_ARRAY_SIZE]);
