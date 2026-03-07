@@ -43,7 +43,8 @@ int main(void)
 			if (indexInArray == NO_INDEX_FOUND)
 			{
 				const int placementIndex = findPlacementIndex(words, totalWordsCount, word, &isMemoryExceeded);
-				if (isMemoryExceeded) goto error;
+				if (isMemoryExceeded)
+					goto error;
 
 				words = placeWordInArrayByIndex(words, totalWordsCount, placementIndex, word, &isMemoryExceeded);
 				if (isMemoryExceeded)
@@ -84,7 +85,7 @@ int lowerSymbol(const int symbol)
 	return symbol;
 }
 
-//FIXME: use malloc
+// FIXME: use malloc
 char* mallocConvertToLower(const char* inString)
 {
 	const size_t inStringLen = strlen(inString);
@@ -246,15 +247,22 @@ char* readWord(bool* isEnd, bool* isMemoryExceeded)
 		word[wordLen++] = (char)ch;
 	}
 
-	if (word != nullptr)
-	{
-		word[wordLen] = '\0';
-	}
-
 	if (ch == '\n' || ch == EOF)
 	{
 		*isEnd = true;
 	}
+
+	char* tmp_ptr = realloc(word, wordLen);
+
+	if (tmp_ptr == nullptr)
+	{
+		free(word);
+		*isMemoryExceeded = true;
+		return nullptr;
+	}
+
+	word = tmp_ptr;
+	word[wordLen] = '\0';
 
 	return word;
 }

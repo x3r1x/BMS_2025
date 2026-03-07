@@ -36,6 +36,7 @@ int main()
 	int currentPlacedDates = 0;
 	Date dateArray[DATE_ARRAY_SIZE];
 
+	//err
 	scanf("%d", &N);
 
 	for (int i = 0; i < N; i++)
@@ -58,6 +59,7 @@ int main()
 
 bool isDateCorrect(const Date date)
 {
+	//const
 	switch (date.month)
 	{
 	case JANUARY:

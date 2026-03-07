@@ -9,7 +9,7 @@
 constexpr int TOP_STRINGS_ARRAY_SIZE = 3;
 constexpr int REGISTER_DIFFERENCE = 32;
 
-char* reallocString();
+char* readString();
 int lowerSymbol(int symbol);
 char* mallocConvertToLower(const char* inString);
 void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bool* isError);
@@ -31,7 +31,7 @@ int main(void)
 
 	for (int i = 0; i < N; ++i)
 	{
-		char* str = reallocString();
+		char* str = readString();
 
 		if (str == nullptr)
 		{
@@ -39,6 +39,7 @@ int main(void)
 			return 1;
 		}
 
+		//fix error
 		placeStringInTopArray(topStrings, str, &isError);
 
 		if (isError)
@@ -50,11 +51,13 @@ int main(void)
 	}
 
 	printArray(topStrings);
-
-	return 0;
+	for (int i = 0; i < TOP_STRINGS_ARRAY_SIZE; i++)
+	{
+		free(topStrings[i]);
+	}
 }
 
-char* reallocString()
+char* readString()
 {
 	char* str = nullptr;
 	size_t len = 0;
@@ -84,8 +87,8 @@ char* reallocString()
 	str[len] = '\0';
 	return str;
 
-error:
-	free(str);
+	error:
+		free(str);
 	return nullptr;
 }
 
@@ -118,11 +121,12 @@ char* mallocConvertToLower(const char* inString)
 	return outString;
 }
 
+//do not free str inside function
+//redo function
 void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bool* isError)
 {
 	int index = 0;
 	char* loweredStr = mallocConvertToLower(str);
-	char* lowerArrayString = nullptr;
 
 	if (loweredStr == nullptr)
 	{
@@ -130,10 +134,9 @@ void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bo
 		return;
 	}
 
-	// free str
 	while (index < TOP_STRINGS_ARRAY_SIZE && topArray[index] != nullptr)
 	{
-		lowerArrayString = mallocConvertToLower(topArray[index]);
+		char* lowerArrayString = mallocConvertToLower(topArray[index]);
 
 		if (lowerArrayString == nullptr)
 		{
@@ -144,16 +147,22 @@ void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bo
 
 		if (strcmp(loweredStr, lowerArrayString) < 0)
 		{
-			lowerArrayString = mallocConvertToLower(topArray[++index]);
+			index++;
+			free(lowerArrayString);
 		}
 		else
 		{
+			free(lowerArrayString);
 			break;
 		}
 	}
 
+	free(loweredStr);
+
 	if (index != TOP_STRINGS_ARRAY_SIZE)
 	{
+		free(topArray[TOP_STRINGS_ARRAY_SIZE - 1]);
+
 		for (int i = TOP_STRINGS_ARRAY_SIZE - 1; i > index; --i)
 		{
 			topArray[i] = topArray[i - 1];
@@ -161,9 +170,10 @@ void placeStringInTopArray(char* topArray[TOP_STRINGS_ARRAY_SIZE], char* str, bo
 
 		topArray[index] = str;
 	}
-
-	free(loweredStr);
-	free(lowerArrayString);
+	else
+	{
+		free(str);
+	}
 }
 
 void printArray(char* array[TOP_STRINGS_ARRAY_SIZE])

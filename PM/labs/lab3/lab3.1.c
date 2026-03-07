@@ -8,7 +8,7 @@
 
 constexpr int REGISTER_DIFFERENCE = 32;
 
-char* reallocString(bool* isEOF);
+char* readString(bool* isEOF);
 char* mallocNewStringWithoutDividers(const char* inString);
 bool isAlphaNumeric(char symbol);
 int lowerSymbol(int symbol);
@@ -20,7 +20,7 @@ int main(void)
 
 	while (!isEOF)
 	{
-		char* str = reallocString(&isEOF);
+		char* str = readString(&isEOF);
 		if (isEOF)
 			break;
 
@@ -48,7 +48,7 @@ int main(void)
 	}
 }
 
-char* reallocString(bool* isEOF)
+char* readString(bool* isEOF)
 {
 	char* str = nullptr;
 	size_t len = 0;
@@ -99,7 +99,7 @@ bool isAlphaNumeric(const char symbol)
 char* mallocNewStringWithoutDividers(const char* inString)
 {
 	const size_t inStringLen = strlen(inString);
-	char* outString = malloc(inStringLen);
+	char* outString = malloc(inStringLen + 1);
 	size_t outStringLen = 0;
 
 	if (outString == nullptr)
