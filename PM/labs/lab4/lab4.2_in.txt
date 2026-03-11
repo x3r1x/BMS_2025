@@ -1,0 +1,8 @@
+6
+0 0 Alpha
+10 5 Beta
+4 1 Yoshkar-Ola
+-3 4 Gamma
+7 -2 Delta
+2 3 Epsilon
+3 2
