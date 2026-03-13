@@ -20,6 +20,7 @@ typedef struct
 bool IsPointInputSuccess(Point** array, int len, bool* isMemoryError);
 bool IsPolygonConvex(Polygon polygon);
 bool IsSelfIntersect(Polygon polygon);
+int GetSumOfArea(Polygon polygon);
 void FreePointArray(Point** array, int len);
 
 int main(void)
@@ -50,6 +51,9 @@ int main(void)
 	else if (IsPolygonConvex(polygon))
 	{
 		printf("Convex\n");
+
+		const int areaSum = GetSumOfArea(polygon);
+		printf("Area: %d.%d\n", areaSum / 2, areaSum % 2 * 5);
 	}
 	else
 	{
@@ -93,8 +97,8 @@ int Max(const int a, const int b)
 bool isPointInsideASegment(const Point* A, const Point* B, const Point* C, const int orientCtoAB)
 {
 	return orientCtoAB == 0
-	&& Min(A->x, B->x) <= C->x && C->x <= Max(A->x, B->x)
-	&& Min(A->y, B->y) <= C->y && C->y <= Max(A->y, B->y);
+		&& Min(A->x, B->x) <= C->x && C->x <= Max(A->x, B->x)
+		&& Min(A->y, B->y) <= C->y && C->y <= Max(A->y, B->y);
 }
 
 bool IsSelfIntersect(Polygon polygon)
@@ -134,6 +138,23 @@ bool IsSelfIntersect(Polygon polygon)
 	}
 
 	return false;
+}
+
+int GetSumOfArea(const Polygon polygon)
+{
+	int sum = 0;
+
+	for (int i = 0; i < polygon.verticesCount; i++)
+	{
+		const int j = (i + 1) % polygon.verticesCount;
+
+		const Point* A = polygon.vertices[i];
+		const Point* B = polygon.vertices[j];
+
+		sum += A->x * B->y - A->y * B->x;
+	}
+
+	return sum;
 }
 
 void FreePointArray(Point** array, const int len)
