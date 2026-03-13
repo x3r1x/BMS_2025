@@ -11,7 +11,7 @@ typedef struct
 {
 	int x;
 	int y;
-} Coordinates ;
+} Coordinates;
 
 typedef struct
 {
@@ -67,7 +67,8 @@ void ReadTownInfos(Town array[TOWN_ARRAY_SIZE], const int len, bool* isError)
 
 int Module(const int x)
 {
-	if (x >= 0) return x;
+	if (x >= 0)
+		return x;
 
 	return -x;
 }
