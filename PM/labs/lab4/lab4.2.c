@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 
 constexpr int TOWN_ARRAY_SIZE = 10;
 constexpr int MAX_NAME_SIZE = 20;
@@ -17,19 +18,18 @@ typedef struct
 {
 	char name[MAX_NAME_SIZE];
 	Coordinates coordinates;
-	int distanceToCustomer;
 } Town;
 
-void ReadTownInfos(Town array[TOWN_ARRAY_SIZE], int len, bool* isError);
-int CalculateTownDistancesAndGetMin(Town array[TOWN_ARRAY_SIZE], int len, Coordinates coordinates);
-void PrintClosestTownInfos(Town array[TOWN_ARRAY_SIZE], int len, int minDistance);
+bool IsReadTownInfosSuccessful(Town array[TOWN_ARRAY_SIZE], int len);
+int CalculateTownDistancesAndGetMin(const Town towns[TOWN_ARRAY_SIZE], int townDistances[TOWN_ARRAY_SIZE], int len, Coordinates coordinates);
+void PrintClosestTownInfos(const Town towns[TOWN_ARRAY_SIZE], const int townDistances[TOWN_ARRAY_SIZE], int len, int minDistance);
 
 int main()
 {
 	int n;
 
-	bool isError;
 	Town townArray[TOWN_ARRAY_SIZE];
+	int townDistances[TOWN_ARRAY_SIZE];
 	Coordinates customerCoordinates;
 
 	if (scanf("%d", &n) != 1)
@@ -38,65 +38,54 @@ int main()
 		return 1;
 	}
 
-	ReadTownInfos(townArray, n, &isError);
-
-	if (isError || scanf("%d %d", &customerCoordinates.x, &customerCoordinates.y) != 2)
+	if (!IsReadTownInfosSuccessful(townArray, n) || scanf("%d %d", &customerCoordinates.x, &customerCoordinates.y) != 2)
 	{
 		printf("Error: unexpected input!");
 		return 1;
 	}
 
-	const int minDistance = CalculateTownDistancesAndGetMin(townArray, n, customerCoordinates);
+	const int minDistance = CalculateTownDistancesAndGetMin(townArray, townDistances, n, customerCoordinates);
 
-	PrintClosestTownInfos(townArray, n, minDistance);
+	PrintClosestTownInfos(townArray, townDistances, n, minDistance);
 }
 
-void ReadTownInfos(Town array[TOWN_ARRAY_SIZE], const int len, bool* isError)
+bool IsReadTownInfosSuccessful(Town array[TOWN_ARRAY_SIZE], const int len)
 {
-	*isError = false;
-
 	for (int i = 0; i < len; i++)
 	{
 		if (scanf("%d %d %s", &array[i].coordinates.x, &array[i].coordinates.y, array[i].name) != 3)
 		{
-			*isError = true;
-			return;
+			return false;
 		}
 	}
+
+	return true;
 }
 
-int Module(const int x)
-{
-	if (x >= 0)
-		return x;
-
-	return -x;
-}
-
-int CalculateTownDistancesAndGetMin(Town array[TOWN_ARRAY_SIZE], int len, Coordinates coordinates)
+int CalculateTownDistancesAndGetMin(const Town towns[TOWN_ARRAY_SIZE], int townDistances[TOWN_ARRAY_SIZE], const int len, const Coordinates coordinates)
 {
 	int minDistance = 0;
 
 	for (int i = 0; i < len; i++)
 	{
-		array[i].distanceToCustomer = Module(array[i].coordinates.x - coordinates.x) + Module(array[i].coordinates.y - coordinates.y);
+		townDistances[i] = abs(towns[i].coordinates.x - coordinates.x) + abs(towns[i].coordinates.y - coordinates.y);
 
-		if (array[i].distanceToCustomer < minDistance || i == 0)
+		if (townDistances[i] < minDistance || i == 0)
 		{
-			minDistance = array[i].distanceToCustomer;
+			minDistance = townDistances[i];
 		}
 	}
 
 	return minDistance;
 }
 
-void PrintClosestTownInfos(Town array[TOWN_ARRAY_SIZE], const int len, const int minDistance)
+void PrintClosestTownInfos(const Town towns[TOWN_ARRAY_SIZE], const int townDistances[TOWN_ARRAY_SIZE], const int len, const int minDistance)
 {
 	for (int i = 0; i < len; i++)
 	{
-		if (array[i].distanceToCustomer == minDistance)
+		if (townDistances[i] == minDistance)
 		{
-			printf("%s (%d, %d) distance = %d\n", array[i].name, array[i].coordinates.x, array[i].coordinates.y, array[i].distanceToCustomer);
+			printf("%s (%d, %d) distance = %d\n", towns[i].name, towns[i].coordinates.x, towns[i].coordinates.y, townDistances[i]);
 		}
 	}
 }
