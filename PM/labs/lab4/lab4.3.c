@@ -101,6 +101,37 @@ bool isPointInsideASegment(const Point* A, const Point* B, const Point* C, const
 		&& Min(A->y, B->y) <= C->y && C->y <= Max(A->y, B->y);
 }
 
+bool AreSidesIntersectingWithMainSide(const Point* A, const Point* B, const Polygon polygon, const int index)
+{
+	int preventFallThroughRightSide = 0;
+	if (index == 0)
+		preventFallThroughRightSide = 1;
+
+	for (int j = index + 2; j < polygon.verticesCount - preventFallThroughRightSide; j++)
+	{
+		const Point* C = polygon.vertices[j];
+		const Point* D = polygon.vertices[(j + 1) % polygon.verticesCount];
+
+		const int orientCtoAB = Orient(A, B, C);
+		const int orientDtoAB = Orient(A, B, D);
+		const int orientAtoCD = Orient(C, D, A);
+		const int orientBtoCD = Orient(C, D, B);
+
+		if (orientCtoAB * orientDtoAB < 0 && orientBtoCD * orientAtoCD < 0)
+		{
+			return true;
+		}
+
+		if (isPointInsideASegment(A, B, C, orientCtoAB) || isPointInsideASegment(A, B, D, orientDtoAB)
+			|| isPointInsideASegment(C, D, A, orientAtoCD) || isPointInsideASegment(C, D, B, orientBtoCD))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool IsSelfIntersect(Polygon polygon)
 {
 	const int lastMainSideIndex = polygon.verticesCount / 2 + polygon.verticesCount % 2;
@@ -110,30 +141,9 @@ bool IsSelfIntersect(Polygon polygon)
 		const Point* A = polygon.vertices[i];
 		const Point* B = polygon.vertices[i + 1];
 
-		int preventFallThroughRightSide = 0;
-		if (i == 0)
-			preventFallThroughRightSide = 1;
-
-		for (int j = i + 2; j < polygon.verticesCount - preventFallThroughRightSide; j++)
+		if (AreSidesIntersectingWithMainSide(A, B, polygon, i))
 		{
-			const Point* C = polygon.vertices[j];
-			const Point* D = polygon.vertices[(j + 1) % polygon.verticesCount];
-
-			const int orientCtoAB = Orient(A, B, C);
-			const int orientDtoAB = Orient(A, B, D);
-			const int orientAtoCD = Orient(C, D, A);
-			const int orientBtoCD = Orient(C, D, B);
-
-			if (orientCtoAB * orientDtoAB < 0 && orientBtoCD * orientAtoCD < 0)
-			{
-				return true;
-			}
-
-			if (isPointInsideASegment(A, B, C, orientCtoAB) || isPointInsideASegment(A, B, D, orientDtoAB)
-				|| isPointInsideASegment(C, D, A, orientAtoCD) || isPointInsideASegment(C, D, B, orientBtoCD))
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 
