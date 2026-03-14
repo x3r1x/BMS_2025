@@ -110,11 +110,11 @@ bool IsSelfIntersect(Polygon polygon)
 		const Point* A = polygon.vertices[i];
 		const Point* B = polygon.vertices[i + 1];
 
-		int preventFallthroughRightSide = 0;
+		int preventFallThroughRightSide = 0;
 		if (i == 0)
-			preventFallthroughRightSide = 1;
+			preventFallThroughRightSide = 1;
 
-		for (int j = i + 2; j < polygon.verticesCount - preventFallthroughRightSide; j++)
+		for (int j = i + 2; j < polygon.verticesCount - preventFallThroughRightSide; j++)
 		{
 			const Point* C = polygon.vertices[j];
 			const Point* D = polygon.vertices[(j + 1) % polygon.verticesCount];
