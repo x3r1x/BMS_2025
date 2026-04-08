@@ -85,7 +85,6 @@ int lowerSymbol(const int symbol)
 	return symbol;
 }
 
-// FIXME: use malloc
 char* mallocConvertToLower(const char* inString)
 {
 	const size_t inStringLen = strlen(inString);
