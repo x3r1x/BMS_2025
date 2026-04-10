@@ -71,8 +71,8 @@ char* ReadString()
 	str[len] = '\0';
 	return str;
 
-	error:
-		free(str);
+error:
+	free(str);
 	return nullptr;
 }
 
@@ -91,8 +91,6 @@ void PrintAddressInfo(const char* str, const size_t iteration)
 
 void PrintStringInfo(const char* str, const size_t iteration)
 {
-	bool isEnd = false;
-
 	for (int j = 0; j < SYMBOLS_PER_DUMP; j++)
 	{
 		if (str[iteration * SYMBOLS_PER_DUMP + j] == 0)
@@ -130,6 +128,8 @@ void StringResearch()
 
 		printf("\n");
 	}
+
+	free(str);
 }
 
 void DataResearch()
