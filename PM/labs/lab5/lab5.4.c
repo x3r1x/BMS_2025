@@ -3,6 +3,7 @@
 //
 
 #include <stdio.h>
+
 typedef enum
 {
 	INT_TYPE = 1,

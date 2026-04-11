@@ -76,6 +76,7 @@ error:
 	return nullptr;
 }
 
+//TODO: make 8 a constant
 void PrintAddressInfo(const char* str, const size_t iteration)
 {
 	for (int j = 0; j < SYMBOLS_PER_DUMP; j++)
@@ -89,6 +90,7 @@ void PrintAddressInfo(const char* str, const size_t iteration)
 	}
 }
 
+//TODO: make a new format
 void PrintStringInfo(const char* str, const size_t iteration)
 {
 	for (int j = 0; j < SYMBOLS_PER_DUMP; j++)
@@ -111,6 +113,7 @@ void PrintStringInfo(const char* str, const size_t iteration)
 
 void StringResearch()
 {
+	//FIXME: could be nullptr
 	char* str = ReadString();
 	size_t iterations = strlen(str) / SYMBOLS_PER_DUMP;
 
@@ -132,6 +135,7 @@ void StringResearch()
 	free(str);
 }
 
+//TODO: decompose, rename(not research)
 void DataResearch()
 {
 	int a[6];

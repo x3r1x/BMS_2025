@@ -23,19 +23,30 @@ int main(void)
 	uint8_t* encryptedText = malloc(len);
 	uint8_t* decryptedText = malloc(len);
 
-	if (encryptedText == nullptr || decryptedText == nullptr) goto error;
-
-	if (originalText == nullptr || scanf("%hhu", &key) != 1)
+	if (encryptedText == nullptr || decryptedText == nullptr)
+	{
 		goto error;
+	}
+
+	// FIXME: formattiing
+	if (originalText == nullptr || scanf("%hhu", &key) != 1)
+	{
+		goto error;
+	}
 
 	Encrypt((uint8_t*)originalText, encryptedText, len, key);
 
 	if (encryptedText == nullptr)
+	{
 		goto error;
+	}
 
 	Decrypt(encryptedText, decryptedText, len, key);
 
-	if (decryptedText == nullptr) goto error;
+	if (decryptedText == nullptr)
+	{
+		goto error;
+	}
 
 	printf("Dump of original string: ");
 	PrintDump(decryptedText, len);

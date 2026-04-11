@@ -8,6 +8,8 @@
 
 constexpr int MAX_MANTISSA = 0x7FFFFF;
 constexpr int MAX_EXPONENT = 255;
+constexpr int SIGN_OFFSET = 31;
+constexpr int EXPONENT_OFFSET = 23;
 
 typedef enum
 {
@@ -16,14 +18,14 @@ typedef enum
 } Statuses;
 
 int BuildFloat(bool sign, uint8_t exponent, uint32_t mantissa, float* result);
-void FloatResearch();
-bool IsFloatInputSuccessful();
+void FloatExperiment();
+bool IsFloatFromInputSuccessful();
 
 int main()
 {
-	FloatResearch();
+	FloatExperiment();
 
-	if (!IsFloatInputSuccessful())
+	if (!IsFloatFromInputSuccessful())
 	{
 		printf("Error!");
 		return 1;
@@ -34,8 +36,8 @@ int BuildFloat(const bool sign, const uint8_t exponent, const uint32_t mantissa,
 {
 	uint32_t number = 0;
 
-	number = sign << 31;
-	number |= exponent << 23;
+	number = sign << SIGN_OFFSET;
+	number |= exponent << EXPONENT_OFFSET;
 
 	if (mantissa > MAX_MANTISSA)
 	{
@@ -49,12 +51,15 @@ int BuildFloat(const bool sign, const uint8_t exponent, const uint32_t mantissa,
 	return OK_STATUS;
 }
 
-bool IsFloatInputSuccessful()
+bool IsFloatFromInputSuccessful()
 {
 	int sign, exponent, mantissa;
 	float num;
 
-	scanf("%d %d %i", &sign, &exponent, &mantissa);
+	if (scanf("%d %d %i", &sign, &exponent, &mantissa) != 3)
+	{
+		return false;
+	}
 
 	if ((sign != 1 && sign != 0) || exponent < 0 || exponent > MAX_EXPONENT || mantissa > MAX_MANTISSA || mantissa < 0)
 	{
@@ -71,7 +76,7 @@ bool IsFloatInputSuccessful()
 	return true;
 }
 
-void FloatResearch()
+void FloatExperiment()
 {
 	float result;
 
