@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+constexpr int NO_INTERSECTION = -1;
+constexpr double EPSILON = 1e-6;
+
 typedef struct
 {
 	double x;
@@ -25,9 +28,18 @@ typedef struct
 	double C;
 } SquareEquationCoefficients;
 
+typedef struct
+{
+	int index;
+	double timeToReach;
+	Coordinates coordinates;
+	bool isRepetitive;
+} IntersectionInfo;
+
 bool IsInputReadSuccessful(Coordinates* startDot, Coordinates* direction, int* islandsCount);
 Island* ReadIslandsArray(int islandsCount);
-int GetClosestIslandIndex(Coordinates startPos, Coordinates direction, const Island* islands, int islandsCount);
+IntersectionInfo GetIntersectionInfo(Coordinates startPos, Coordinates direction, const Island* islands, int islandsCount);
+void WriteIntersectionInfo(IntersectionInfo info);
 
 int main()
 {
@@ -49,7 +61,7 @@ int main()
 		return 1;
 	}
 
-	printf("%d", GetClosestIslandIndex(startDot, direction, islands, islandsCount));
+	WriteIntersectionInfo(GetIntersectionInfo(startDot, direction, islands, islandsCount));
 
 	free(islands);
 }
@@ -116,9 +128,24 @@ double GetMinTime(const SquareEquationCoefficients coefficients, const double di
 	return (-coefficients.B - sqrt(discriminant)) / (2 * coefficients.A);
 }
 
-int GetClosestIslandIndex(const Coordinates startPos, const Coordinates direction, const Island* islands, const int islandsCount)
+void CalculateIntersectionCoordinates(const Coordinates startPos, const Coordinates direction, IntersectionInfo* closestIslandInfo)
 {
-	int minIslandIndex = -1;
+	Coordinates intersectionCoordinates;
+
+	intersectionCoordinates.x = startPos.x + direction.x * closestIslandInfo->timeToReach;
+	intersectionCoordinates.y = startPos.y + direction.y * closestIslandInfo->timeToReach;
+
+	closestIslandInfo->coordinates = intersectionCoordinates;
+}
+
+IntersectionInfo GetIntersectionInfo(const Coordinates startPos, const Coordinates direction, const Island* islands, const int islandsCount)
+{
+	IntersectionInfo closestIslandInfo = {
+		.index = NO_INTERSECTION,
+		.coordinates = 0,
+		.timeToReach = 0,
+		.isRepetitive = 0
+	};
 	double minDiscriminant = 0;
 
 	for (int i = 0; i < islandsCount; i++)
@@ -126,17 +153,42 @@ int GetClosestIslandIndex(const Coordinates startPos, const Coordinates directio
 		const SquareEquationCoefficients coefficients = GetCoefficients(startPos, direction, islands[i]);
 		const double discriminant = GetDiscriminant(coefficients);
 
-		if (discriminant >= 0 && (minIslandIndex == -1 || discriminant < minDiscriminant))
+		if (discriminant >= 0 && (closestIslandInfo.index == NO_INTERSECTION || fabs(discriminant - minDiscriminant) <= EPSILON))
 		{
-			const double minTime = GetMinTime(coefficients, discriminant);
+			const double timeToReachCurrentIsland = GetMinTime(coefficients, discriminant);
 
-			if (minTime >= 0)
+			if (timeToReachCurrentIsland >= 0)
 			{
-				minDiscriminant = discriminant;
-				minIslandIndex = i;
+				if (timeToReachCurrentIsland == closestIslandInfo.timeToReach)
+				{
+					closestIslandInfo.isRepetitive = true;
+				}
+				else
+				{
+					closestIslandInfo.index = i;
+					minDiscriminant = discriminant;
+					closestIslandInfo.timeToReach = timeToReachCurrentIsland;
+				}
 			}
 		}
 	}
 
-	return minIslandIndex;
+	CalculateIntersectionCoordinates(startPos, direction, &closestIslandInfo);
+	return closestIslandInfo;
+}
+
+void WriteIntersectionInfo(const IntersectionInfo info)
+{
+	if (info.index == NO_INTERSECTION)
+	{
+		printf("No intersection found!");
+		return;
+	}
+
+	printf("Time to reach island: %lf\nCoordinates: (%lf, %lf)\n", info.timeToReach, info.coordinates.x, info.coordinates.y);
+
+	if (info.isRepetitive)
+	{
+		printf("There are two islands in here!\n");
+	}
 }
