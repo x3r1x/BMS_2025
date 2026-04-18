@@ -6,36 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool IsFillArraySuccessful(char*** array, int elementsCount);
-int cmp(const void* a, const void* b);
-void PrintArray(char** array, int elementsCount);
-void FreeStringArray(char** array, int arraySize);
-
-int main()
-{
-	int N;
-	char** array = nullptr;
-
-	if (scanf("%d", &N) != 1)
-	{
-		printf("Error: wrong input!\n");
-		return 1;
-	}
-
-	getchar();
-
-	if (!IsFillArraySuccessful(&array, N))
-	{
-		FreeStringArray(array, N);
-		return 1;
-	}
-
-	qsort(array, N, sizeof(char*), cmp);
-
-	PrintArray(array, N);
-	FreeStringArray(array, N);
-}
-
 char* ReadString()
 {
 	char* str = nullptr;
@@ -141,4 +111,29 @@ int cmp(const void* a, const void* b)
 	const char* s2 = *(const char**)b;
 
 	return strcmp(s1, s2);
+}
+
+int main()
+{
+	int N;
+	char** array = nullptr;
+
+	if (scanf("%d", &N) != 1)
+	{
+		printf("Error: wrong input!\n");
+		return 1;
+	}
+
+	getchar();
+
+	if (!IsFillArraySuccessful(&array, N))
+	{
+		FreeStringArray(array, N);
+		return 1;
+	}
+
+	qsort(array, N, sizeof(char*), cmp);
+
+	PrintArray(array, N);
+	FreeStringArray(array, N);
 }

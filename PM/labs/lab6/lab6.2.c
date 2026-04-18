@@ -13,11 +13,17 @@ typedef struct
 {
 	double x;
 	double y;
-} Coordinates;
+} Point;
 
 typedef struct
 {
-	Coordinates coordinates;
+	double x;
+	double y;
+} Vector;
+
+typedef struct
+{
+	Point coordinates;
 	double radius;
 } Island;
 
@@ -32,18 +38,20 @@ typedef struct
 {
 	int index;
 	double timeToReach;
-	Coordinates coordinates;
+	Point coordinates;
 	bool isRepetitive;
 } IntersectionInfo;
 
-bool IsInputReadSuccessful(Coordinates* startDot, Coordinates* direction, int* islandsCount);
+bool IsInputReadSuccessful(Point* startDot, Vector* direction, int* islandsCount);
+bool IsInsideAnIsland(Point startPos, Island* islands, int islandsCount);
 Island* ReadIslandsArray(int islandsCount);
-IntersectionInfo GetIntersectionInfo(Coordinates startPos, Coordinates direction, const Island* islands, int islandsCount);
+IntersectionInfo GetIntersectionInfo(Point startPos, Vector direction, const Island* islands, int islandsCount);
 void WriteIntersectionInfo(IntersectionInfo info);
 
 int main()
 {
-	Coordinates startDot, direction;
+	Point startDot;
+	Vector direction;
 	Island* islands;
 	int islandsCount;
 
@@ -61,12 +69,19 @@ int main()
 		return 1;
 	}
 
+	if (IsInsideAnIsland(startDot, islands, islandsCount))
+	{
+		printf("You are inside an island!");
+		free(islands);
+		return 0;
+	}
+
 	WriteIntersectionInfo(GetIntersectionInfo(startDot, direction, islands, islandsCount));
 
 	free(islands);
 }
 
-bool IsInputReadSuccessful(Coordinates* startDot, Coordinates* direction, int* islandsCount)
+bool IsInputReadSuccessful(Point* startDot, Vector* direction, int* islandsCount)
 {
 	if (scanf("%lf %lf", &startDot->x, &startDot->y) != 2)
 	{
@@ -107,11 +122,11 @@ Island* ReadIslandsArray(const int islandsCount)
 	return islandsArray;
 }
 
-SquareEquationCoefficients GetCoefficients(const Coordinates startDot, const Coordinates direction, const Island island)
+SquareEquationCoefficients GetCoefficients(const Point startDot, const Vector direction, const Island island, const double coefficientA)
 {
 	SquareEquationCoefficients coefficients;
 
-	coefficients.A = pow(direction.x, 2) + pow(direction.y, 2);
+	coefficients.A = coefficientA;
 	coefficients.B = 2 * (direction.x * (startDot.x - island.coordinates.x) + direction.y * (startDot.y - island.coordinates.y));
 	coefficients.C = pow(startDot.x - island.coordinates.x, 2) + pow(startDot.y - island.coordinates.y, 2) - pow(island.radius, 2);
 
@@ -128,9 +143,9 @@ double GetMinTime(const SquareEquationCoefficients coefficients, const double di
 	return (-coefficients.B - sqrt(discriminant)) / (2 * coefficients.A);
 }
 
-void CalculateIntersectionCoordinates(const Coordinates startPos, const Coordinates direction, IntersectionInfo* closestIslandInfo)
+void CalculateIntersectionCoordinates(const Point startPos, const Vector direction, IntersectionInfo* closestIslandInfo)
 {
-	Coordinates intersectionCoordinates;
+	Point intersectionCoordinates;
 
 	intersectionCoordinates.x = startPos.x + direction.x * closestIslandInfo->timeToReach;
 	intersectionCoordinates.y = startPos.y + direction.y * closestIslandInfo->timeToReach;
@@ -138,7 +153,7 @@ void CalculateIntersectionCoordinates(const Coordinates startPos, const Coordina
 	closestIslandInfo->coordinates = intersectionCoordinates;
 }
 
-IntersectionInfo GetIntersectionInfo(const Coordinates startPos, const Coordinates direction, const Island* islands, const int islandsCount)
+IntersectionInfo GetIntersectionInfo(const Point startPos, const Vector direction, const Island* islands, const int islandsCount)
 {
 	IntersectionInfo closestIslandInfo = {
 		.index = NO_INTERSECTION,
@@ -146,18 +161,19 @@ IntersectionInfo GetIntersectionInfo(const Coordinates startPos, const Coordinat
 		.timeToReach = 0,
 		.isRepetitive = 0
 	};
-	double minDiscriminant = 0;
+
+	double coefficientA = pow(direction.x, 2) + pow(direction.y, 2);
 
 	for (int i = 0; i < islandsCount; i++)
 	{
-		const SquareEquationCoefficients coefficients = GetCoefficients(startPos, direction, islands[i]);
+		const SquareEquationCoefficients coefficients = GetCoefficients(startPos, direction, islands[i], coefficientA);
 		const double discriminant = GetDiscriminant(coefficients);
 
-		if (discriminant >= 0 && (closestIslandInfo.index == NO_INTERSECTION || fabs(discriminant - minDiscriminant) <= EPSILON))
+		if (discriminant >= 0)
 		{
 			const double timeToReachCurrentIsland = GetMinTime(coefficients, discriminant);
 
-			if (timeToReachCurrentIsland >= 0)
+			if (timeToReachCurrentIsland >= 0 && (timeToReachCurrentIsland - closestIslandInfo.timeToReach < EPSILON || closestIslandInfo.index == NO_INTERSECTION))
 			{
 				if (timeToReachCurrentIsland == closestIslandInfo.timeToReach)
 				{
@@ -166,7 +182,6 @@ IntersectionInfo GetIntersectionInfo(const Coordinates startPos, const Coordinat
 				else
 				{
 					closestIslandInfo.index = i;
-					minDiscriminant = discriminant;
 					closestIslandInfo.timeToReach = timeToReachCurrentIsland;
 				}
 			}
@@ -191,4 +206,17 @@ void WriteIntersectionInfo(const IntersectionInfo info)
 	{
 		printf("There are two islands in here!\n");
 	}
+}
+
+bool IsInsideAnIsland(Point startPos, Island* islands, int islandsCount)
+{
+	for (int i = 0; i < islandsCount; i++)
+	{
+		if (pow(islands[i].coordinates.x - startPos.x, 2) + pow(islands[i].coordinates.y - startPos.y, 2) <= pow(islands[i].radius, 2))
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

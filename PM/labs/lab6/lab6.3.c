@@ -8,7 +8,7 @@
 
 constexpr double EPSILON = 1e-9;
 
-enum
+typedef enum
 {
 	UNKNOWN_ERROR = -1,
 	OK = 0,
@@ -23,25 +23,25 @@ typedef struct
 {
 	int numRows;
 	int numColumns;
-	double* items; // указатель на данные (в куче)
+	double* items;
 } Matrix;
 
-int CreateMatrix(int numRows, int numColumns, Matrix* m);
-int CreateUnitMatrix(int numRows, int numColumns, Matrix* m);
+MatrixCodes CreateMatrix(int numRows, int numColumns, Matrix* m);
+MatrixCodes CreateUnitMatrix(int numRows, int numColumns, Matrix* m);
 void DestroyMatrix(Matrix* m);
 
-int ReadMatrix(Matrix* m);
+MatrixCodes ReadMatrix(Matrix* m);
 void WriteMatrix(Matrix* m);
 
 double GetMatrixItemValue(Matrix* m, int row, int column);
 void SetMatrixItemValue(Matrix* m, int row, int column, double value);
 
-int CopyMatrix(Matrix* inMatrix, Matrix* outMatrix);
-int MultiplyMatrix(Matrix* m1, Matrix* m2, Matrix* result);
+MatrixCodes CopyMatrix(Matrix* inMatrix, Matrix* outMatrix);
+MatrixCodes MultiplyMatrix(Matrix* m1, Matrix* m2, Matrix* result);
 bool AreMatrixEqual(Matrix* m1, Matrix* m2);
 
-int UnfoldGaussMethod(Matrix* inMatrix, Matrix* inverseMatrix);
-int GetResultMatrix(Matrix* originalMatrix, Matrix* inverseMatrix, Matrix* resultMatrix);
+MatrixCodes UnfoldGaussMethod(Matrix* inMatrix, Matrix* inverseMatrix);
+MatrixCodes GetResultMatrix(Matrix* originalMatrix, Matrix* inverseMatrix, Matrix* resultMatrix);
 bool IsPrintResultSuccessful(Matrix* resultMatrix);
 
 int main()
@@ -105,7 +105,7 @@ int main()
 	DestroyMatrix(&resultM);
 }
 
-int CreateMatrix(const int numRows, const int numColumns, Matrix* m)
+MatrixCodes CreateMatrix(const int numRows, const int numColumns, Matrix* m)
 {
 	double* newItems = malloc(numColumns * numRows * sizeof(double));
 
@@ -121,7 +121,7 @@ int CreateMatrix(const int numRows, const int numColumns, Matrix* m)
 	return OK;
 }
 
-int CreateUnitMatrix(const int numRows, const int numColumns, Matrix* m)
+MatrixCodes CreateUnitMatrix(const int numRows, const int numColumns, Matrix* m)
 {
 	if (CreateMatrix(numRows, numColumns, m) != OK)
 	{
@@ -146,7 +146,7 @@ int CreateUnitMatrix(const int numRows, const int numColumns, Matrix* m)
 	return OK;
 }
 
-int ReadMatrix(Matrix* m)
+MatrixCodes ReadMatrix(Matrix* m)
 {
 	for (int i = 0; i < m->numRows; i++)
 	{
@@ -234,7 +234,7 @@ bool AreMatrixEqual(Matrix* m1, Matrix* m2)
 	return true;
 }
 
-int MultiplyMatrix(Matrix* m1, Matrix* m2, Matrix* result)
+MatrixCodes MultiplyMatrix(Matrix* m1, Matrix* m2, Matrix* result)
 {
 	if (m1->numColumns != m2->numRows)
 	{
@@ -259,7 +259,7 @@ int MultiplyMatrix(Matrix* m1, Matrix* m2, Matrix* result)
 	return OK;
 }
 
-int CopyMatrix(Matrix* inMatrix, Matrix* outMatrix)
+MatrixCodes CopyMatrix(Matrix* inMatrix, Matrix* outMatrix)
 {
 	if (inMatrix->numColumns != outMatrix->numColumns || inMatrix->numRows != outMatrix->numRows)
 	{
@@ -322,7 +322,7 @@ void NormalizePseudoTransformedUnitMatrix(Matrix* transformedMatrix, Matrix* inv
 	}
 }
 
-int UnfoldGaussMethod(Matrix* inMatrix, Matrix* inverseMatrix)
+MatrixCodes UnfoldGaussMethod(Matrix* inMatrix, Matrix* inverseMatrix)
 {
 	if (inMatrix->numColumns != inMatrix->numRows)
 	{
@@ -365,7 +365,7 @@ int UnfoldGaussMethod(Matrix* inMatrix, Matrix* inverseMatrix)
 	return OK;
 }
 
-int GetResultMatrix(Matrix* originalMatrix, Matrix* inverseMatrix, Matrix* resultMatrix)
+MatrixCodes GetResultMatrix(Matrix* originalMatrix, Matrix* inverseMatrix, Matrix* resultMatrix)
 {
 	if (originalMatrix->numRows != inverseMatrix->numRows && originalMatrix->numColumns != inverseMatrix->numColumns)
 	{

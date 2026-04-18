@@ -16,54 +16,6 @@ typedef struct
 	double price;
 } Good;
 
-bool IsFillGoodArraySuccessful(Good** goodArray, int* goodArraySize, FILE* inFile);
-void StartSubstringResearch(Good* goodArray, int goodArraySize);
-void FreeNames(const Good* goodArray, int goodArraySize);
-
-int main(const int argc, char* argv[])
-{
-	if (argc != 2)
-	{
-		perror("Wrong amount of parameters!\n");
-		return 1;
-	}
-
-	FILE* csvFile = fopen(argv[1], "r");
-
-	if (csvFile == NULL)
-	{
-		perror("Error opening file!\n");
-		return 1;
-	}
-
-	Good* goods = nullptr;
-	int goodsCount = 0;
-
-	if (!IsFillGoodArraySuccessful(&goods, &goodsCount, csvFile))
-	{
-		FreeNames(goods, goodsCount);
-		free(goods);
-		perror("Error filling goods into array!\n");
-		return 1;
-	}
-
-	StartSubstringResearch(goods, goodsCount);
-
-	if (ferror(csvFile))
-	{
-		perror("Error reading a string from a file!\n");
-		return 1;
-	}
-
-	FreeNames(goods, goodsCount);
-	free(goods);
-	if (fclose(csvFile) == EOF)
-	{
-		perror("Error closing file!\n");
-		return 1;
-	}
-}
-
 char* ReadString(FILE* inFile, bool* isEOF)
 {
 	char* str = nullptr;
@@ -149,6 +101,14 @@ Good ParseStringAndGetGood(char* currentBuffer, bool* isError)
 
 	currentStartMark += strlen(goodQuantity) + 1;
 	good.quantity = strtol(goodQuantity, nullptr, 0);
+
+	if (good.quantity < 0)
+	{
+		free(good.name);
+		*isError = true;
+		return good;
+	}
+
 	free(goodQuantity);
 
 	if (currentStartMark == nullptr)
@@ -159,6 +119,14 @@ Good ParseStringAndGetGood(char* currentBuffer, bool* isError)
 	}
 
 	good.price = strtod(currentStartMark, nullptr);
+
+	if (good.price < 0)
+	{
+		free(good.name);
+		*isError = true;
+		return good;
+	}
+
 	return good;
 }
 
@@ -203,7 +171,7 @@ char* GetLoweredString(const char* inString)
 		return nullptr;
 	}
 
-	for (int i = 0; i < strlen(inString); i++)
+	for (size_t i = 0; i < strlen(inString); i++)
 	{
 		loweredString[i] = (char)tolower(inString[i]);
 	}
@@ -218,7 +186,7 @@ double GetTotalPriceAndPrintElements(Good* goodArray, int goodArraySize, char* s
 	double totalPrice = 0;
 	*isError = false;
 
-	for (int i = 0; i < goodArraySize; i++)
+	for (size_t i = 0; i < goodArraySize; i++)
 	{
 		char* loweredString = GetLoweredString(goodArray[i].name);
 
@@ -265,8 +233,52 @@ void StartSubstringResearch(Good* goodArray, int goodArraySize)
 
 void FreeNames(const Good* goodArray, const int goodArraySize)
 {
-	for (int i = 0; i < goodArraySize; i++)
+	for (size_t i = 0; i < goodArraySize; i++)
 	{
 		free(goodArray[i].name);
+	}
+}
+
+int main(const int argc, char* argv[])
+{
+	if (argc != 2)
+	{
+		perror("Wrong amount of parameters!\n");
+		return 1;
+	}
+
+	FILE* csvFile = fopen(argv[1], "r");
+
+	if (csvFile == NULL)
+	{
+		perror("Error opening file!\n");
+		return 1;
+	}
+
+	Good* goods = nullptr;
+	int goodsCount = 0;
+
+	if (!IsFillGoodArraySuccessful(&goods, &goodsCount, csvFile))
+	{
+		FreeNames(goods, goodsCount);
+		free(goods);
+		perror("Error filling goods into array!\n");
+		return 1;
+	}
+
+	StartSubstringResearch(goods, goodsCount);
+
+	if (ferror(csvFile))
+	{
+		perror("Error reading a string from a file!\n");
+		return 1;
+	}
+
+	FreeNames(goods, goodsCount);
+	free(goods);
+	if (fclose(csvFile) == EOF)
+	{
+		perror("Error closing file!\n");
+		return 1;
 	}
 }
