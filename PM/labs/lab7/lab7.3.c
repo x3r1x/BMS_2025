@@ -126,7 +126,7 @@ char* GetSubstringBeforeSymbol(const char* string, const char symbol)
 
 Good ParseStringAndGetGood(char* currentBuffer, bool* isError)
 {
-	Good good = {0};
+	Good good = { 0 };
 	char* currentStartMark = currentBuffer;
 	char* goodName = GetSubstringBeforeSymbol(currentStartMark, COMMA);
 
@@ -205,7 +205,7 @@ char* GetLoweredString(const char* inString)
 
 	for (int i = 0; i < strlen(inString); i++)
 	{
-		loweredString[i] = (char) tolower(inString[i]);
+		loweredString[i] = (char)tolower(inString[i]);
 	}
 
 	loweredString[strlen(inString)] = '\0';
