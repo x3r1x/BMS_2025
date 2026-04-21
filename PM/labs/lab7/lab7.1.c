@@ -95,12 +95,12 @@ bool IsCompressSuccessful(FILE** inFile, FILE** outFile)
 
 bool IsReadingQuantitySuccessful(FILE** inFile, SymbolQuantity* symbolQuantity, bool* isReadingQuantity, const int ch)
 {
-	if ((ch != LEFT_BRACKET && ch != RIGHT_BRACKET) || isReadingQuantity == nullptr || !*isReadingQuantity )
+	if ((ch != LEFT_BRACKET && ch != RIGHT_BRACKET) || isReadingQuantity == nullptr || !*isReadingQuantity)
 	{
 		return false;
 	}
 
-	if (ch == LEFT_BRACKET && fscanf(*inFile,"%hhu", &symbolQuantity->quantity) != 1)
+	if (ch == LEFT_BRACKET && fscanf(*inFile, "%hhu", &symbolQuantity->quantity) != 1)
 	{
 		return false;
 	}
@@ -124,13 +124,12 @@ bool IsReadingSymbolSuccessful(FILE** inFile, SymbolQuantity* symbolQuantity, bo
 	{
 		char symbol;
 
-		if (fscanf(*inFile,"%c", &symbol) != 1)
+		if (fscanf(*inFile, "%c", &symbol) != 1)
 		{
 			return false;
 		}
 
-		symbolQuantity->symbolCode = (int) symbol;
-
+		symbolQuantity->symbolCode = (int)symbol;
 	}
 
 	if (ch == RIGHT_BRACKET)
@@ -177,7 +176,6 @@ bool IsDecompressSuccessful(FILE** inFile, FILE** outFile)
 				fprintf(stderr, "Error reading symbol!\n");
 				return false;
 			}
-
 
 			if (isReadingQuantity == true)
 			{

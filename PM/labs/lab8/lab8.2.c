@@ -214,18 +214,20 @@ void FindShapeIndicators(ShapeInfo** shapes, const int shapeAmount)
 
 int AreaAscendingComparator(const void* a, const void* b)
 {
-	const ShapeInfo shape1 = *(const ShapeInfo*) a;
-	const ShapeInfo shape2 = *(const ShapeInfo*) b;
+	const ShapeInfo shape1 = *(const ShapeInfo*)a;
+	const ShapeInfo shape2 = *(const ShapeInfo*)b;
 
-	return shape1.area < shape2.area ? -1 : shape1.area > shape2.area ? 1 : 0;
+	return shape1.area < shape2.area ? -1 : shape1.area > shape2.area ? 1
+																	  : 0;
 }
 
 int PerimeterDescendingComparator(const void* a, const void* b)
 {
-	const ShapeInfo shape1 = *(const ShapeInfo*) a;
-	const ShapeInfo shape2 = *(const ShapeInfo*) b;
+	const ShapeInfo shape1 = *(const ShapeInfo*)a;
+	const ShapeInfo shape2 = *(const ShapeInfo*)b;
 
-	return shape1.perimeter < shape2.perimeter ? 1 : shape1.perimeter > shape2.perimeter ? -1 : 0;
+	return shape1.perimeter < shape2.perimeter ? 1 : shape1.perimeter > shape2.perimeter ? -1
+																						 : 0;
 }
 
 void PrintShapeInfoArray(ShapeInfo** shapes, const int shapesAmount)

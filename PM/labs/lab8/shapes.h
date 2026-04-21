@@ -32,4 +32,4 @@ double GetShapePerimeter(const Shape* shape);
 void PrintShapeInfo(const Shape* shape);
 void DestroyShape(Shape* shape);
 
-#endif //SHAPES_H
+#endif // SHAPES_H

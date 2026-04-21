@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Function pointers, Shape type & Virtual Table
+// Function pointers, Shape type & Virtual Table
 
 typedef double (*GetShapeAreaFunc)(const Shape* self);
 typedef double (*GetShapePerimeterFunc)(const Shape* self);
@@ -29,8 +29,7 @@ struct Shape
 	Color color;
 };
 
-
-//Interface functions
+// Interface functions
 
 double GetShapeArea(const Shape* shape)
 {
@@ -52,8 +51,7 @@ void DestroyShape(Shape* shape)
 	free(shape);
 }
 
-
-//Circle realization
+// Circle realization
 
 typedef struct
 {
@@ -64,21 +62,21 @@ typedef struct
 
 static double GetCircleArea(const Shape* self)
 {
-	const Circle* circle = (const Circle*) self;
+	const Circle* circle = (const Circle*)self;
 
 	return M_PI * pow(circle->radius, 2);
 }
 
 static double GetCirclePerimeter(const Shape* self)
 {
-	const Circle* circle = (const Circle*) self;
+	const Circle* circle = (const Circle*)self;
 
 	return 2 * M_PI * circle->radius;
 }
 
 static void PrintCircleInfo(const Shape* self)
 {
-	const Circle* circle = (const Circle*) self;
+	const Circle* circle = (const Circle*)self;
 
 	printf("circle x=%lf y=%lf radius=%lf color=#%.02X%.02X%.02X area=%lf perimeter=%lf\n", circle->center.x, circle->center.y,
 		circle->radius, circle->base.color.r, circle->base.color.g, circle->base.color.b,
@@ -103,11 +101,10 @@ Shape* CreateCircle(const Point center, const double radius, const Color color)
 		circle->radius = radius;
 	}
 
-	return (Shape*) circle;
+	return (Shape*)circle;
 }
 
-
-//Rectangle realization
+// Rectangle realization
 
 typedef struct
 {
@@ -119,21 +116,21 @@ typedef struct
 
 static double GetRectangleArea(const Shape* self)
 {
-	const Rectangle* rectangle = (const Rectangle*) self;
+	const Rectangle* rectangle = (const Rectangle*)self;
 
 	return rectangle->height * rectangle->width;
 }
 
 static double GetRectanglePerimeter(const Shape* self)
 {
-	const Rectangle* rectangle = (const Rectangle*) self;
+	const Rectangle* rectangle = (const Rectangle*)self;
 
-	return (rectangle->width+ rectangle->height) * 2;
+	return (rectangle->width + rectangle->height) * 2;
 }
 
 static void PrintRectangleInfo(const Shape* self)
 {
-	const Rectangle* rectangle = (const Rectangle*) self;
+	const Rectangle* rectangle = (const Rectangle*)self;
 
 	printf("rectangle left=%lf top=%lf width=%lf height=%lf color=#%.02X%.02X%.02X area=%lf perimeter=%lf\n", rectangle->topLeft.x,
 		rectangle->topLeft.y, rectangle->width, rectangle->height, rectangle->base.color.r, rectangle->base.color.g, rectangle->base.color.b,
@@ -159,11 +156,10 @@ Shape* CreateRectangle(Point topLeft, double width, double height, Color color)
 		rectangle->height = height;
 	}
 
-	return (Shape*) rectangle;
+	return (Shape*)rectangle;
 }
 
-
-//Triangle realization
+// Triangle realization
 
 typedef struct
 {
@@ -175,18 +171,14 @@ typedef struct
 
 static double GetTriangleArea(const Shape* self)
 {
-	const Triangle* triangle = (const Triangle*) self;
+	const Triangle* triangle = (const Triangle*)self;
 
-	return 0.5 * fabs(
-		triangle->point1.x * (triangle->point2.y - triangle->point3.y)
-		+ triangle->point2.x * (triangle->point3.y - triangle->point1.y)
-		+ triangle->point3.x * (triangle->point1.y - triangle->point2.y)
-		);
+	return 0.5 * fabs(triangle->point1.x * (triangle->point2.y - triangle->point3.y) + triangle->point2.x * (triangle->point3.y - triangle->point1.y) + triangle->point3.x * (triangle->point1.y - triangle->point2.y));
 }
 
 static double GetTrianglePerimeter(const Shape* self)
 {
-	const Triangle* triangle = (const Triangle*) self;
+	const Triangle* triangle = (const Triangle*)self;
 
 	const double side1 = sqrt(pow(triangle->point2.x - triangle->point1.x, 2) + pow(triangle->point2.y - triangle->point1.y, 2));
 	const double side2 = sqrt(pow(triangle->point3.x - triangle->point2.x, 2) + pow(triangle->point3.y - triangle->point2.y, 2));
@@ -197,7 +189,7 @@ static double GetTrianglePerimeter(const Shape* self)
 
 static void PrintTriangleInfo(const Shape* self)
 {
-	const Triangle* triangle = (const Triangle*) self;
+	const Triangle* triangle = (const Triangle*)self;
 
 	printf("triangle x1=%lf y1=%lf x2=%lf y2=%lf x3=%lf y3=%lf color=#%.02X%.02X%.02X area=%lf perimeter=%lf\n", triangle->point1.x,
 		triangle->point1.y, triangle->point2.x, triangle->point2.y, triangle->point3.x, triangle->point3.y, triangle->base.color.r, triangle->base.color.g,
@@ -223,5 +215,5 @@ Shape* CreateTriangle(const Point point1, const Point point2, const Point point3
 		triangle->point3 = point3;
 	}
 
-	return (Shape*) triangle;
+	return (Shape*)triangle;
 }
