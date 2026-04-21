@@ -1,0 +1,14 @@
+5
+rectangle 45.23 12.12 8 10 #accd04
+rectangle -13 -20 6 7.5 #123456
+triangle -13 -20 -7 -20 -13 -12.5 #3425ab
+triangle -13 -20 -13 0 0 -20 #abcdef
+circle -32.5 -20 9 #ff0000
+
+3
+circle 0 0 10 #ff0000
+rectangle -1 2 5 3 #00ff00
+triangle 0 0 3 0 0 4 #0000ff
+
+gcc lab8.2.c shapes.c -o lab8.2 -lm
+./lab8.2 < lab8.2_in.txt
