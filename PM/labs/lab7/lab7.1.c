@@ -262,19 +262,23 @@ int main(const int argc, char* argv[])
 	if (mode == COMPRESS && !IsCompressSuccessful(&inFile, &outFile))
 	{
 		fprintf(stderr, "Failed to compress!\n");
+		return 1;
 	}
 	if (mode == DECOMPRESS && !IsDecompressSuccessful(&inFile, &outFile))
 	{
 		fprintf(stderr, "failed to decompress!\n");
+		return 1;
 	}
 
 	if (mode == ERROR)
 	{
 		fprintf(stderr, "Failed to handle!\n");
+		return 1;
 	}
 
 	if (!IsClosingFilesSuccessful(&inFile, &outFile))
 	{
 		fprintf(stderr, "Failed to close files!\n");
+		return 1;
 	}
 }
