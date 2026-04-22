@@ -230,6 +230,12 @@ ProgramType InitAndGetType(const int argc, char* argv[], FILE** inFile, FILE** o
 	if (*outFile == NULL)
 	{
 		fprintf(stderr, "Error opening file, %s!\n", argv[3]);
+
+		if (fclose(*inFile) == EOF)
+		{
+			fprintf(stderr, "Error closing file, %s!\n", argv[2]);
+		}
+
 		return ERROR;
 	}
 
