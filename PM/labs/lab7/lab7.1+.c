@@ -9,6 +9,8 @@
 
 constexpr int LEFT_BRACKET = '[';
 constexpr int RIGHT_BRACKET = ']';
+constexpr int COMMA = ',';
+constexpr int SPACE = ' ';
 
 typedef enum
 {
@@ -19,15 +21,36 @@ typedef enum
 
 typedef struct
 {
-	uint8_t quantity;
-	int symbolCode;
+	int8_t quantity;
+	int symbolCodes[-INT8_MIN];
 } SymbolQuantity;
 
 bool IsWritingQuantitySuccessful(FILE** outFile, const SymbolQuantity symbolQuantity)
 {
-	if (fprintf(*outFile, "%c%d%c%c%c%c", LEFT_BRACKET, symbolQuantity.quantity, RIGHT_BRACKET, LEFT_BRACKET, symbolQuantity.symbolCode, RIGHT_BRACKET) == EOF)
+	if (symbolQuantity.quantity >= 0 && fprintf(*outFile, "%c%d%c%c%c%c", LEFT_BRACKET, symbolQuantity.quantity, RIGHT_BRACKET, LEFT_BRACKET, symbolQuantity.symbolCodes[0], RIGHT_BRACKET) == EOF)
 	{
 		return false;
+	}
+
+	if (symbolQuantity.quantity < 0)
+	{
+		if (fprintf(*outFile, "%c%d", LEFT_BRACKET, symbolQuantity.quantity) == EOF)
+		{
+			return false;
+		}
+
+		for (int i = 0; i < -symbolQuantity.quantity; i++)
+		{
+			if (fprintf(*outFile, "%c %c", COMMA, symbolQuantity.symbolCodes[i]) == EOF)
+			{
+				return false;
+			}
+		}
+
+		if (fprintf(*outFile, "%c", RIGHT_BRACKET) == EOF)
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -35,7 +58,7 @@ bool IsWritingQuantitySuccessful(FILE** outFile, const SymbolQuantity symbolQuan
 
 bool IsIncrementingQuantitySuccessful(FILE** outFile, SymbolQuantity* symbolQuantity)
 {
-	if (symbolQuantity->quantity == UINT8_MAX)
+	if (symbolQuantity->quantity == INT8_MAX)
 	{
 		if (!IsWritingQuantitySuccessful(outFile, *symbolQuantity))
 		{
@@ -54,13 +77,13 @@ bool IsIncrementingQuantitySuccessful(FILE** outFile, SymbolQuantity* symbolQuan
 
 bool IsChangingSymbolSuccessful(FILE** outFile, SymbolQuantity* symbolQuantity, const int newSymbol)
 {
-	if (symbolQuantity->symbolCode != 0 && !IsWritingQuantitySuccessful(outFile, *symbolQuantity))
+	if (symbolQuantity->symbolCodes[0] != 0 && !IsWritingQuantitySuccessful(outFile, *symbolQuantity))
 	{
 		return false;
 	}
 
 	symbolQuantity->quantity = 1;
-	symbolQuantity->symbolCode = newSymbol;
+	symbolQuantity->symbolCodes[0] = newSymbol;
 
 	return true;
 }
@@ -68,17 +91,69 @@ bool IsChangingSymbolSuccessful(FILE** outFile, SymbolQuantity* symbolQuantity, 
 bool IsCompressSuccessful(FILE** inFile, FILE** outFile)
 {
 	int ch;
-	SymbolQuantity currentQuantity = { 0 };
+	SymbolQuantity currentQuantity = {
+		.quantity = -1,
+		.symbolCodes = 0
+	};
+
+	if ((currentQuantity.symbolCodes[0] = fgetc(*inFile)) == EOF)
+	{
+		return false;
+	}
 
 	while ((ch = fgetc(*inFile)) != EOF)
 	{
-		if (ch == currentQuantity.symbolCode && !IsIncrementingQuantitySuccessful(outFile, &currentQuantity))
+		if (currentQuantity.quantity >= 0)
 		{
-			return false;
+			if (currentQuantity.symbolCodes[0] == ch)
+			{
+				if (!IsIncrementingQuantitySuccessful(outFile, &currentQuantity))
+				{
+					return false;
+				}
+			}
+			else
+			{
+				if (!IsWritingQuantitySuccessful(outFile, currentQuantity))
+				{
+					return false;
+				}
+
+				currentQuantity.quantity = -1;
+				currentQuantity.symbolCodes[0] = ch;
+			}
 		}
-		if (ch != currentQuantity.symbolCode && !IsChangingSymbolSuccessful(outFile, &currentQuantity, ch))
+		else
 		{
-			return false;
+			if (currentQuantity.symbolCodes[-currentQuantity.quantity - 1] == ch)
+			{
+				currentQuantity.quantity++;
+
+				if (currentQuantity.quantity != 0 && !IsWritingQuantitySuccessful(outFile, currentQuantity))
+				{
+					return false;
+				}
+
+				currentQuantity.quantity = 0;
+				currentQuantity.symbolCodes[0] = ch;
+			}
+			else
+			{
+				if (currentQuantity.quantity == INT8_MIN)
+				{
+					if (!IsWritingQuantitySuccessful(outFile, currentQuantity))
+					{
+						return false;
+					}
+
+					currentQuantity.quantity = -1;
+					currentQuantity.symbolCodes[0] = ch;
+				}
+				else
+				{
+					currentQuantity.symbolCodes[-currentQuantity.quantity--] = ch;
+				}
+			}
 		}
 	}
 
@@ -93,46 +168,67 @@ bool IsCompressSuccessful(FILE** inFile, FILE** outFile)
 
 bool IsReadingQuantitySuccessful(FILE** inFile, SymbolQuantity* symbolQuantity, bool* isReadingQuantity, const int ch)
 {
-	if ((ch != LEFT_BRACKET && ch != RIGHT_BRACKET) || isReadingQuantity == nullptr || !*isReadingQuantity)
+	if (isReadingQuantity == nullptr || !*isReadingQuantity)
 	{
 		return false;
 	}
 
-	if (ch == LEFT_BRACKET && fscanf(*inFile, "%hhu", &symbolQuantity->quantity) != 1)
+	if (ch == LEFT_BRACKET && fscanf(*inFile, "%hhd", &symbolQuantity->quantity) != 1)
 	{
 		return false;
 	}
 
-	if (ch == RIGHT_BRACKET)
-	{
-		*isReadingQuantity = false;
-	}
+	*isReadingQuantity = false;
 
 	return true;
 }
 
-bool IsReadingSymbolsSuccessful(FILE** inFile, SymbolQuantity* symbolQuantity, bool* isReadingQuantity, int ch)
+bool IsReadingSymbolsSuccessful(FILE** inFile, SymbolQuantity* symbolQuantity, bool* isReadingQuantity, const int ch)
 {
-	if ((ch != LEFT_BRACKET && ch != RIGHT_BRACKET) || isReadingQuantity == nullptr || *isReadingQuantity)
+	if (isReadingQuantity == nullptr || *isReadingQuantity)
 	{
 		return false;
 	}
 
-	if (ch == LEFT_BRACKET)
+	if (fgetc(*inFile) == EOF)
 	{
-		char symbol;
+		printf("There %c!\n", ch);
+		return false;
+	}
 
-		if (fscanf(*inFile, "%c", &symbol) != 1)
+	char symbol;
+
+	if (fscanf(*inFile, "%c", &symbol) != 1)
+	{
+		return false;
+	}
+
+	symbolQuantity->symbolCodes[0] = (int)symbol;
+
+	for (int i = 1; i < -symbolQuantity->quantity; i++)
+	{
+		if (fgetc(*inFile) != COMMA || fgetc(*inFile) != SPACE)
 		{
 			return false;
 		}
 
-		symbolQuantity->symbolCode = (int)symbol;
+		char symbol1;
+
+		if (fscanf(*inFile, "%c", &symbol1) != 1)
+		{
+			return false;
+		}
+
+		symbolQuantity->symbolCodes[i] = (int)symbol1;
 	}
 
-	if (ch == RIGHT_BRACKET)
+	if (fgetc(*inFile) == RIGHT_BRACKET)
 	{
 		*isReadingQuantity = true;
+	}
+	else
+	{
+		return false;
 	}
 
 	return true;
@@ -140,11 +236,24 @@ bool IsReadingSymbolsSuccessful(FILE** inFile, SymbolQuantity* symbolQuantity, b
 
 bool IsWritingUnpackedQuantitySuccessful(FILE** outFile, const SymbolQuantity quantity)
 {
-	for (int i = 0; i < quantity.quantity; i++)
+	if (quantity.quantity >= 0)
 	{
-		if (fprintf(*outFile, "%c", quantity.symbolCode) == EOF)
+		for (int i = 0; i < quantity.quantity + 2; i++)
 		{
-			return false;
+			if (fprintf(*outFile, "%c", quantity.symbolCodes[0]) == EOF)
+			{
+				return false;
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < -quantity.quantity; i++)
+		{
+			if (fprintf(*outFile, "%c", quantity.symbolCodes[i]) == EOF)
+			{
+				return false;
+			}
 		}
 	}
 
@@ -184,7 +293,7 @@ bool IsDecompressSuccessful(FILE** inFile, FILE** outFile)
 				}
 
 				currentQuantity.quantity = 0;
-				currentQuantity.symbolCode = 0;
+				currentQuantity.symbolCodes[0] = 0;
 			}
 		}
 	}
