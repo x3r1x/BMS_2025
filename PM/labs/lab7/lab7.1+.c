@@ -22,7 +22,7 @@ typedef enum
 typedef struct
 {
 	int8_t quantity;
-	int symbolCodes[-INT8_MIN];
+	int symbolCodes[INT8_MAX + 1];
 } SymbolQuantity;
 
 bool IsWritingQuantitySuccessful(FILE** outFile, const SymbolQuantity symbolQuantity)
@@ -88,6 +88,7 @@ bool IsChangingSymbolSuccessful(FILE** outFile, SymbolQuantity* symbolQuantity, 
 	return true;
 }
 
+//FIXME: rename
 bool IsCompressSuccessful(FILE** inFile, FILE** outFile)
 {
 	int ch;
