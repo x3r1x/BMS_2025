@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-constexpr int MAX_BUFFER_SIZE = 11;
+constexpr int MAX_SHAPE_STRING_SIZE = 11;
 constexpr char CIRCLE_STRING[7] = "circle";
 constexpr char RECTANGLE_STRING[10] = "rectangle";
 constexpr char TRIANGLE_STRING[9] = "triangle";
@@ -28,6 +28,12 @@ typedef struct
 	double area;
 	double perimeter;
 } ShapeInfo;
+
+typedef struct
+{
+	ShapeInfo* array;
+	int size;
+} ShapeArray;
 
 typedef struct
 {
@@ -52,20 +58,20 @@ typedef struct
 	Color color;
 } TriangleParamsType;
 
-void DestroyShapeInfoArray(ShapeInfo* array, const int arraySize)
+void DestroyShapeInfoArray(const ShapeArray* array)
 {
-	for (int i = 0; i < arraySize; i++)
+	for (int i = 0; i < array->size; i++)
 	{
-		if (array[i].shape != nullptr)
+		if (array->array[i].shape != nullptr)
 		{
-			free(array[i].shape);
+			free(array->array[i].shape);
 		}
 	}
 
-	free(array);
+	free(array->array);
 }
 
-bool IsReadingTypeSuccessful(ShapeInfo* shape, char buffer[MAX_BUFFER_SIZE])
+bool IsReadingTypeSuccessful(ShapeInfo* shape, char buffer[MAX_SHAPE_STRING_SIZE])
 {
 	if (strcmp(buffer, CIRCLE_STRING) == 0)
 	{
@@ -155,60 +161,66 @@ bool IsCreatingTriangleSuccessful(ShapeInfo* shapeInfo)
 	return true;
 }
 
-ShapeInfo* ReadShapeArray(const int arraySize)
+bool ReadShapeArray(ShapeArray* array, const int arraySize)
 {
-	char buffer[MAX_BUFFER_SIZE];
-	ShapeInfo* shapeArray = malloc(arraySize * sizeof(ShapeInfo));
+	char buffer[MAX_SHAPE_STRING_SIZE];
+	array->array = calloc(arraySize, sizeof(ShapeInfo));
+	array->size = 0;
 
-	if (shapeArray == nullptr)
+	if (array->array == nullptr)
 	{
-		return nullptr;
+		return false;
 	}
 
 	for (int i = 0; i < arraySize; i++)
 	{
 		if (scanf("%s", buffer) != 1)
 		{
-			return nullptr;
+			goto error;
 		}
 
-		if (!IsReadingTypeSuccessful(&shapeArray[i], buffer))
+		if (!IsReadingTypeSuccessful(&array->array[i], buffer))
 		{
-			return nullptr;
+			goto error;
 		}
 
-		switch (shapeArray[i].type)
+		switch (array->array[i].type)
 		{
 		case CIRCLE:
-			if (!IsCreatingCircleParamsSuccessful(&shapeArray[i]))
+			if (!IsCreatingCircleParamsSuccessful(&array->array[i]))
 			{
-				return nullptr;
+				goto error;
 			}
 			break;
 		case RECTANGLE:
-			if (!IsCreatingRectangleParamsSuccessful(&shapeArray[i]))
+			if (!IsCreatingRectangleParamsSuccessful(&array->array[i]))
 			{
-				return nullptr;
+				goto error;
 			}
 			break;
 		case TRIANGLE:
-			if (!IsCreatingTriangleSuccessful(&shapeArray[i]))
+			if (!IsCreatingTriangleSuccessful(&array->array[i]))
 			{
-				return nullptr;
+				goto error;
 			}
 			break;
 		}
+
+		array->size++;
 	}
 
-	return shapeArray;
+	return true;
+error:
+	DestroyShapeInfoArray(array);
+	return false;
 }
 
-void FindShapeIndicators(ShapeInfo** shapes, const int shapeAmount)
+void FindShapeIndicators(ShapeArray* array)
 {
-	for (int i = 0; i < shapeAmount; i++)
+	for (int i = 0; i < array->size; i++)
 	{
-		(*shapes)[i].area = GetShapeArea((*shapes)[i].shape);
-		(*shapes)[i].perimeter = GetShapePerimeter((*shapes)[i].shape);
+		array->array[i].area = GetShapeArea(array->array[i].shape);
+		array->array[i].perimeter = GetShapePerimeter(array->array[i].shape);
 	}
 }
 
@@ -230,29 +242,29 @@ int PerimeterDescendingComparator(const void* a, const void* b)
 																						 : 0;
 }
 
-void PrintShapeInfoArray(ShapeInfo** shapes, const int shapesAmount)
+void PrintShapeInfoArray(const ShapeArray* array)
 {
-	for (int i = 0; i < shapesAmount; i++)
+	for (int i = 0; i < array->size; i++)
 	{
-		PrintShapeInfo((*shapes)[i].shape);
+		PrintShapeInfo(array->array[i].shape);
 	}
 }
 
-void WriteResearchResult(ShapeInfo* shapes, const int shapesAmount)
+void WriteResearchResult(ShapeArray array)
 {
 	printf("Area ascending:\n\n");
-	qsort(shapes, shapesAmount, sizeof(ShapeInfo), AreaAscendingComparator);
-	PrintShapeInfoArray(&shapes, shapesAmount);
+	qsort(array.array, array.size, sizeof(ShapeInfo), AreaAscendingComparator);
+	PrintShapeInfoArray(&array);
 
 	printf("\nPerimeter descending:\n\n");
-	qsort(shapes, shapesAmount, sizeof(ShapeInfo), PerimeterDescendingComparator);
-	PrintShapeInfoArray(&shapes, shapesAmount);
+	qsort(array.array, array.size, sizeof(ShapeInfo), PerimeterDescendingComparator);
+	PrintShapeInfoArray(&array);
 }
 
 int main()
 {
 	int N;
-	ShapeInfo* shapes;
+	ShapeArray array = { 0 };
 
 	if (scanf("%d", &N) != 1)
 	{
@@ -260,15 +272,14 @@ int main()
 		return 1;
 	}
 
-	if ((shapes = ReadShapeArray(N)) == nullptr)
+	if (!ReadShapeArray(&array, N))
 	{
-		DestroyShapeInfoArray(shapes, N);
 		fprintf(stderr, "Error!\n");
 		return 1;
 	}
 
-	FindShapeIndicators(&shapes, N);
-	WriteResearchResult(shapes, N);
+	FindShapeIndicators(&array);
+	WriteResearchResult(array);
 
-	DestroyShapeInfoArray(shapes, N);
+	DestroyShapeInfoArray(&array);
 }

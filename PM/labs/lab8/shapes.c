@@ -51,7 +51,7 @@ void DestroyShape(Shape* shape)
 	free(shape);
 }
 
-// Circle realization
+// Circle implementation
 
 typedef struct
 {
@@ -104,7 +104,7 @@ Shape* CreateCircle(const Point center, const double radius, const Color color)
 	return (Shape*)circle;
 }
 
-// Rectangle realization
+// Rectangle implementation
 
 typedef struct
 {
@@ -159,7 +159,7 @@ Shape* CreateRectangle(Point topLeft, double width, double height, Color color)
 	return (Shape*)rectangle;
 }
 
-// Triangle realization
+// Triangle implementation
 
 typedef struct
 {
