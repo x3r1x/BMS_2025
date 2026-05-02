@@ -1,0 +1,11 @@
+status
+moverobot right 10
+moverobot up 3
+status
+reset
+status
+teleport 15 -2
+status
+help
+history
+exit
