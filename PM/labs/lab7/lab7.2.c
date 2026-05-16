@@ -28,7 +28,7 @@ typedef enum
 	INVERT,
 	LIGHTEN,
 	ERROR
-} ProgramType;
+} ProgramCommand;
 
 typedef struct
 {
@@ -44,10 +44,17 @@ typedef struct
 	uint32_t rowSize;
 } ImageSize;
 
-void U16ToLE(const uint16_t x, uint8_t out[2])
+void U16ToU8(const uint16_t x, uint8_t out[2])
 {
 	out[0] = (uint8_t)(x & MASK);
 	out[1] = (uint8_t)(x >> BYTE & MASK);
+}
+
+bool IsLittleEndian()
+{
+	int i = 1;
+
+	return *(char *) &i == 1;
 }
 
 bool IsBfTypeCorrect(FILE** inFile)
@@ -60,7 +67,7 @@ bool IsBfTypeCorrect(FILE** inFile)
 		return false;
 	}
 
-	U16ToLE(bfTypeRaw, bfTypeTransformed);
+	U16ToU8(bfTypeRaw, bfTypeTransformed);
 
 	return bfTypeTransformed[0] == 'B' && bfTypeTransformed[1] == 'M';
 }
@@ -76,7 +83,7 @@ bool IsBiBitCountCorrect(FILE** inFile)
 		return false;
 	}
 
-	U16ToLE(biBitCountRaw, biBitCountTransformed);
+	U16ToU8(biBitCountRaw, biBitCountTransformed);
 
 	return biBitCountTransformed[0] == NEEDED_BIT_COUNT && biBitCountTransformed[1] == 0x00;
 }
@@ -133,7 +140,7 @@ bool GoToPixelsStart(FILE** inFile)
 	return true;
 }
 
-ProgramType InitAndGetProgramType(const int argc, char* argv[], FILE** inFile, FILE** outFile)
+ProgramCommand InitAndGetProgramType(const int argc, char* argv[], FILE** inFile, FILE** outFile, bool* isLittleEndian)
 {
 	if (argc != 4)
 	{
@@ -141,7 +148,7 @@ ProgramType InitAndGetProgramType(const int argc, char* argv[], FILE** inFile, F
 		return ERROR;
 	}
 
-	ProgramType mode;
+	ProgramCommand mode;
 
 	if (strcmp(argv[3], "rotate_cw") == 0)
 	{
@@ -167,6 +174,8 @@ ProgramType InitAndGetProgramType(const int argc, char* argv[], FILE** inFile, F
 	{
 		return ERROR;
 	}
+
+	*isLittleEndian = IsLittleEndian();
 
 	*inFile = fopen(argv[1], "rb");
 
@@ -223,7 +232,7 @@ bool HandlePadding(const uint32_t paddingSize, FILE** inFile, FILE** outFile)
 
 bool ReadImageToMemory(FILE** inFile, Color* image, const ImageSize size)
 {
-	const uint32_t paddingSize = size.rowSize - size.width * 3;
+	const uint32_t paddingSize = size.rowSize - size.width * sizeof(Color);
 
 	for (int i = 0; i < size.height; i++)
 	{
@@ -243,7 +252,7 @@ bool ReadImageToMemory(FILE** inFile, Color* image, const ImageSize size)
 
 bool WriteRotatedCWFromMemory(FILE** outFile, Color* image, const ImageSize size)
 {
-	const uint32_t paddingSize = size.rowSize - size.width * 3;
+	const uint32_t paddingSize = size.rowSize - size.width * 3; // TODO
 
 	for (int j = 0; j < size.width; j++)
 	{
@@ -410,7 +419,7 @@ void LightenComponent(uint8_t* component)
 	}
 	else
 	{
-		*component = (double)*component * LIGHTEN_AMOUNT;
+		*component = (double) *component * LIGHTEN_AMOUNT;
 	}
 }
 
@@ -464,7 +473,7 @@ bool CopyServiceInformation(FILE** inFile, FILE** outFile)
 	return true;
 }
 
-bool HandleOperation(ProgramType operation, FILE** inFile, FILE** outFile)
+bool HandleOperation(ProgramCommand operation, FILE** inFile, FILE** outFile)
 {
 	ImageSize imageSize;
 
@@ -496,8 +505,9 @@ int main(const int argc, char* argv[])
 {
 	FILE* inFile;
 	FILE* outFile;
+	bool isLittleEndian;
 
-	const ProgramType mode = InitAndGetProgramType(argc, argv, &inFile, &outFile);
+	const ProgramCommand mode = InitAndGetProgramType(argc, argv, &inFile, &outFile, &isLittleEndian);
 
 	if (mode == ERROR)
 	{
